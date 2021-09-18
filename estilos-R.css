@@ -424,9 +424,24 @@ border-radius: 15px;
 @media screen and (max-width: 500px){
 
     .cards .card{
+        width: 96%;
         height: auto;
         display: flex;
         flex-direction: column;
         align-items: center;
     }
+
+  .content-card{
+    width: 55%;
+  }
+
+  .contenido-texto-card h1{
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 70px;
+    color:#ffffff;
+    font-family: 'Acme', sans-serif;
+}
 }

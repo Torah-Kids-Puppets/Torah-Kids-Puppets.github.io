@@ -413,7 +413,7 @@ font-family: 'David Libre', serif;
     background: #fff;
     margin-bottom: 30px;
     border-radius: 10px;
-    padding: 45px 30px 60px 30px;
+    padding: 15px 30px 25px 30px;
     transition: 0.5s;
 }
 
@@ -440,7 +440,6 @@ font-family: 'David Libre', serif;
 }
 
 .articulo>p {
-    font-weight: 100;
     color: #5D6678;
     margin-top: 15px;
     padding-bottom: 20px;
@@ -596,11 +595,11 @@ text-decoration: none;
 
 .services {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 .services>img {
-    width: 500px;
+    width: 350px;
 }
 
 .box-skills {
@@ -842,8 +841,10 @@ footer {
     /* Services */
 
     .services {
-        flex-direction: column-reverse;
+        flex-direction: inherit;
         align-items: center;
+    display: flex;
+    justify-content: space-between;
     }
 
     .box-skills {

@@ -505,6 +505,7 @@ footer{
 @media screen and (max-width: 500px){
 
     .cards .card{
+        width: 95%;
         height: auto;
         display: flex;
         flex-direction: column;
@@ -512,7 +513,7 @@ footer{
     }
 
   .content-card{
-    width: 5%;
+    width: 55%;
   }
 
   .contenido-texto-card h1{
@@ -520,7 +521,7 @@ footer{
     margin-right: 15px;
     margin-top: 2px;
     margin-bottom: 2px;
-    font-size: 75px;
+    font-size: 65px;
     color:#ffffff;
     font-family: 'Acme', sans-serif;
 }
