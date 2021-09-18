@@ -261,6 +261,7 @@ nav{
 .cards .card{
   width: ;
   height: 45%;
+   padding: 10px 10px 15px 15px;
   display:flex;
   justify-content: center;
   flex-direction: column;
