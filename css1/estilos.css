@@ -841,10 +841,8 @@ footer {
     /* Services */
 
     .services {
-        flex-direction: inherit;
+        flex-direction: ;
         align-items: center;
-    display: flex;
-    justify-content: space-between;
     }
 
     .box-skills {
@@ -965,7 +963,12 @@ footer {
         width: 85%;
     }
 
+/* Services */
 
+    .services {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
     /* Footer */
     .partFooter {
         width: 95%;

@@ -1,0 +1,122 @@
+::-webkit-scrollbar {
+   width: 15px;
+   height: 15px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgb(255 255 255 / 58%);
+}
+ 
+
+::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(45deg, #00aeff, #a68eff);
+  border-radius: 10px;
+	-webkit-box-shadow: rgba(0,0,0,.12) 0 3px 13px 1px;
+  border-radius: 50px;
+}
+
+/* Manejador hover */
+::-webkit-scrollbar-thumb:hover {
+background-image: linear-gradient(45deg, #00aeff, #00fff3);
+  border-radius: 10px;
+	-webkit-box-shadow: rgb(0 0 0 / 55%) 0 3px 13px 1px;
+}
+
+
+/* Header */
+
+header{
+  width: 100%;
+  height:600px;
+  background: url(img/TKP-LT.jpg);
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  margin-top: 5%;
+}
+
+.cards{
+  width: 100%;
+  height: 100%;
+  display:flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color:#fff;
+  overflow: hidden;
+  text-align: center;
+}
+
+.cards .card{
+  width: ;
+  height: 45%;
+   padding: 10px 10px 15px 15px;
+  display:flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color:#fff;
+  overflow: hidden;
+  text-align: center;
+     background: rgb(0 0 0 / 73%);
+    justify-content: space-evenly;
+    border-radius: 5px;
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.6);
+}
+
+.cards .card > .contenido-texto-card{
+  width: 100%;
+  height: 100%;
+  display:flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color:#fff;
+  overflow: hidden;
+  text-align: center;
+font-family: 'Acme', sans-serif;
+}
+
+.cards .card > .contenido-texto-card p{
+font-size: 30px; 
+font-weight: 300;
+    color:#ffffff;
+font-family: 'Acme', sans-serif;
+}
+
+.contenido-texto-card h1{
+font-size:80px;
+    color:#ffffff;
+font-family: 'Acme', sans-serif;
+}
+
+
+
+/* Breakpoints responsive */
+
+@media screen and (max-width: 500px){
+
+    .cards .card{
+        width: 97%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+  .content-card{
+    width: 55%;
+  }
+
+  .contenido-texto-card h1{
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 70px;
+    color:#ffffff;
+    font-family: 'Acme', sans-serif;
+}
+    }
+}
