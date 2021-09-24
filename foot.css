@@ -44,6 +44,29 @@ footer {
     width: 37.5%;
 }
 
+.partFoot {
+    width: 20%;
+    text-align: center;
+}
+
+.partFoot h4 {
+    color: #1d273b;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
+
+.partFoot a {
+    text-decoration: none;
+    font-size: 20px;
+    color: #adb6c7;
+    cursor: pointer;
+    margin-top: 20px;
+    text-align: center;
+    transition: all ease-in-out .3s;
+    margin-right: 5px;
+}
+
 .social-media i {
     font-size: 20px;
     display: inline-block;
@@ -81,12 +104,22 @@ footer {
         width: 40%;
         margin-bottom: 40px;
     }
+
+    .partFoot {
+        width: 40%;
+        margin-bottom: 40px;
+    }
 }
 
 @media screen and (max-width:600px) {
     
     /* Footer */
     .partFooter {
+        width: 95%;
+        margin-bottom: 40px;
+    }
+
+    .partFoot {
         width: 95%;
         margin-bottom: 40px;
     }
