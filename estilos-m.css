@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,900;1,700&display=swap');
+
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Merriweather', serif;
+}
+
+.header{
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.cta{
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    border-radius: .4em;
+}
+
+.modal{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(51, 51, 51, 0.63);
+    display: flex;
+
+
+    --opacity: 0;
+    --pointer: none;
+    
+    opacity: var(--opacity);
+    pointer-events: var(--pointer);
+    transition: opacity .5s;
+}
+
+.modal:target{
+    --opacity: 1;
+    --pointer: ;
+}
+
+
+.modal_container{
+    margin: auto;
+    background-color: #fff;
+    width: 90%;
+    max-width: 550px;
+    max-height: 85%;
+    overflow: hidden;
+    text-align: center;
+    padding: 2.7em 1.75em;
+    border-radius: 1em;
+}
+
+.modal_picture{
+    width: 90%;
+    margin: 0 auto;
+    max-width: 35%;
+    margin-bottom: .5em;
+
+}
+
+.modal_img{
+    width: 100%;
+    display: block;
+}
+
+.modal_title{
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+
+.modal_title--bold{
+    font-weight: 550;
+}
+
+.hp{
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+ha{
+    font-family: 'Palanquin Dark', sans-serif;
+    color: #000;
+}
+
+.ha{
+    font-family: 'Palanquin Dark', sans-serif;
+    color: #000;
+}
+
+
+.modal_paragraph{
+    margin-top: 1em;
+    margin-bottom: 1em;
+    line-height: 1.5;
+    font-family: 'Merriweather', serif;
+}
+
+.modal_close{
+    
+    
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 50px;
+    cursor: pointer;
+
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 625;
+    color: #fff;
+}
+
+.modal_mas{
+    display: inline-block;
+    border: 1px solid;
+    padding: 1em 2em;
+    text-decoration: none;
+    font-weight: 625;
+    color: #333;
+    border-radius: .5em;
+     border-left: #000000 0.5em solid;
+    transition: background-color 1s cubic-bezier(0, 0.48, 0, 1.15);
+    margin-bottom: 5%;
+}
+
+.modal_mas:hover{
+    display: inline-block;
+    border: 1px solid;
+    padding: 1em 2em;
+    text-decoration: none;
+    font-weight: 625;
+    color: #fff;
+    background-color: #000;
+    border-left: #000000 0.5em solid;
+    border-radius: .5em;
+    margin-bottom: 5%;
+}
+
+@media (max-width:600px) {
+    .modal_title{
+        font-size: 1.5rem;
+    }
+    
+    .modal_container{
+    margin: auto;
+    background-color: #fff;
+    width: 95%;
+    max-width: 550px;
+    max-height: 90%;
+    overflow: hidden;
+    text-align: center;
+    padding: 2.7em 1.5em;
+    border-radius: 1em;
+}
+
+.modal_picture{
+    width: 95%;
+    margin: 0 auto;
+    max-width: 45%;
+    margin-bottom: .5em;
+
+}
+
+
+@media (max-width:800px) {
+    .modal_title{
+        font-size: 1.5rem;
+    }
+    
+    .modal_container{
+    margin: auto;
+    background-color: #fff;
+    width: 90%;
+    max-width: 550px;
+    max-height: 90%;
+    overflow: hidden;
+    text-align: center;
+    padding: 2.7em 1.5em;
+    border-radius: 1em;
+}
+
+.modal_picture{
+    width: 95%;
+    margin: 0 auto;
+    max-width: 45%;
+    margin-bottom: .5em;
+
+}
+
+
+@media (max-width:950px) {
+    .modal_title{
+        font-size: 1.5rem;
+    }
+    
+    .modal_container{
+    margin: auto;
+    background-color: #fff;
+    width: 75%;
+    max-width: 550px;
+    max-height: 90%;
+    overflow: hidden;
+    text-align: center;
+    padding: 2.7em 1.5em;
+    border-radius: 1em;
+}
+
+.modal_picture{
+    width: 95%;
+    margin: 0 auto;
+    max-width: 43%;
+    margin-bottom: .5em;
+
+}
+}
