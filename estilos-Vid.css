@@ -434,6 +434,14 @@ font-family: 'David Libre', serif;
   overflow: hidden;
 }
 
+.contenedorv{
+  margin:auto;
+  padding: var(--margenes) 0;
+  width: 95%;
+  text-align: center;
+  overflow: hidden;
+}
+
 .contenedor h3{
   font-size: var(--titulos);
   color: rgb(219, 219, 219);
@@ -541,7 +549,7 @@ font-family: 'David Libre', serif;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    margin-top: 30px;
+   padding: 5px 0;
   display:flex;
   flex-wrap: wrap;
   overflow: hidden;
