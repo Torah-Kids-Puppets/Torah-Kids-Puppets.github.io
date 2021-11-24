@@ -1,0 +1,150 @@
+@CHARSET "UTF-8";
+table.greyCalendar{
+    border-collapse:collapse;
+    border:1px solid #000;
+    font-size:12px;
+    font-family:Arial,Verdana
+    }
+
+table.greyCalendar th,table.greyCalendar td{
+    border:1px solid #000;
+    padding:2px;
+    width:14%
+    }
+
+table.greyCalendar tbody td{
+    vertical-align:top
+    }
+   
+table.greyCalendar td div.events{
+    font-size:9px;
+    line-height:10px
+    }
+
+table.greyCalendar td.dayHasEvent div.events a:active,table.greyCalendar td.dayHasEvent div.events a:focus{
+    outline:0
+    }
+
+table.greyCalendar thead th{
+    background-color:#696969;
+    color:#fff;
+    font-size:16px;
+    font-weight:700;
+    margin:5px
+    }
+
+table.greyCalendar tbody th{
+       background-color:silver;
+       font-size:8px;
+       font-weight:700;
+       margin:3px
+       }
+
+table.greyCalendar tfoot th{
+    background-color:#a9a9a9;
+    border:none;
+    border-top:1px solid #000
+    }
+
+table.greyCalendar tfoot th a{
+    color:#fff;
+    text-decoration:none;
+    display:block
+    }
+
+table.greyCalendar tfoot th a:visited{
+    color:#fff
+    }
+    
+table.greyCalendar tfoot th a:hover{
+    color:#333;
+    background-color:#d3d3d3
+    }
+
+table.greyCalendar td{
+    background-color:#fff
+    }
+
+table.greyCalendar td.dayBlank{
+    background-color:#d3d3d3
+    }
+
+table.greyCalendar td.dayToday{
+    background-color:#dcdcdc;
+    border:3px solid #000
+    }
+
+table.greyCalendar td div.date{
+    text-align:right;
+    padding:0;
+    margin:0
+    }
+
+table.greyCalendar td.dayToday div.date{
+    color:#000;
+    font-weight:700
+    }
+
+table.greyCalendar td.dayHasEvent div.date{
+    color:green;
+    font-weight:700
+    }
+   
+table.greyCalendar td.dayHasEvent div.events a{
+    color:gray;
+    text-decoration:none
+    }
+
+table.greyCalendar td.dayHasEvent div.events a:visited{
+    color:gray
+    }
+
+table.greyCalendar td.dayHasEvent div.events a:hover{
+    color:gray;
+    text-decoration:underline
+    }
+
+
+table { width: 800px; height: 445px; }
+
+/* Breakpoints responsive */
+
+@media screen and (max-width: 800px){
+
+    table { 
+    margin-top: 3px;
+    width: 565px; 
+    height: 470px; }
+}
+
+@media screen and (max-width: 700px){
+
+    table { 
+    margin-top: 3px;
+    width: 525px; 
+    height: 470px; }
+}
+
+@media screen and (max-width: 600px){
+
+    table { 
+    margin-top: 6px;
+    width: 465px; 
+    height: 460px; }
+}
+
+@media screen and (max-width: 500px){
+
+    table { 
+    margin-top:2px;
+    width: 405px; 
+    height: 450px; }
+}
+
+@media screen and (max-width: 400px){
+
+    table { 
+    margin-top:2px;
+    width: auto; 
+    height: 450px; }
+}
