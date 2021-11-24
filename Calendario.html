@@ -99,83 +99,98 @@
                 </section>
         </div>
     </header>
-    <section class="about-us">
 
-            <section class="" id="Options">
-        <a id="Options"></a>
+    <main>
 
-        <div class="contenedor1">
-            <h2 class="titulo">Torah Kids Puppets Recursos</h2>
-            <div class="contenedor-articulo">
-                <div class="articulo" data-aos="zoom-in-right">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                    <h3></h3>
-                    <div class="texto-video">
-                    <h12>My Zmanim</h12></div>
-                    <p>Calendario</br>
- <p>Accede a el calendario desde el lugar donde te encuentres. Este calendario es de la página <a href="https://www.myzmanim.com/" target="_blank">myzmanim.com</a></p>
-                    <a href="#myzmanim">Ir ---></a>
-                </div>
-                <div class="articulo" data-aos="zoom-in-right">
-                    <i class="fas fa-calendar-alt"></i>
-                    <h3></h3>
-                    <div class="texto-video">
-                    <h12>Calendario</h12></div>
-                    <p>Jabad Español</br>
- <p>Accede a el calendario proporcionado por Jabad.</p>
-                    <a href="https://es.chabad.org/calendar/view/month.htm" target="_blank">Ir ---></a>
-                </div>
-                <div class="articulo" data-aos="zoom-in-right">
-                    <i class="fa fa-calendar-o"></i>
-                    <h3></h3>
-                    <div class="texto-video">
-                    <h12>Calendario</h12></div>
-                    <p>Aish Latino</br>
- <p>Calendario proporcionado por Aish Latino</p>
-                    <a href="https://secure.aish.com/dogood/calendar/aishcal-f-sp.php" target="_blank">Ir ---></a>
-                </div>
-                <div class="articulo" data-aos="zoom-in-right">
-                    <i class="fa fa-calendar-check-o"></i>
-                    <h3></h3>
-                    <div class="texto-video">
-                    <h12>Calendario</h12></div>
-                    <p>Hebcal</br>
- <p>Calendario proporcionado por Hebcal; puedes descargar este calendario desde su página <a href="https://www.hebcal.com/hebcal" target="_blank">-Aquí-</a></p>
-                    <a href="https://www.hebcal.com/hebcal" target="_blank">Ir ---></a>
-                </div>
+<link rel="stylesheet" href="main.min.css">
+    <link href="hebcal-styles.css" rel="stylesheet">
+    <div id="calendar"></div>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.min.js"></script>
+
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+
+    <script src='https://unpkg.com/@hebcal/core@3.27.0/dist/bundle.min.js'></script>
+    <script src='https://unpkg.com/@hebcal/leyning@4.10.2/dist/bundle.min.js'></script>
+    <script src='https://unpkg.com/@hebcal/rest-api@3.8.6/dist/bundle.min.js'></script>
+
+    <script src='hebcal-fullcalendar.js'></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const location = hebcal.Location.lookup('Tel Aviv');
+  const calendarEl = document.getElementById('calendar');
+  const calendar = window['hebcalFullCalendar'] = new FullCalendar.Calendar(calendarEl, {
+    headerToolbar: {
+      left: 'title',
+      right: 'prev,next today',
+    },
+    timeZone: location.getTzid(),
+    events: function(info, successCallback, failureCallback) {
+      const options = {
+        start: info.start,
+        end: info.end,
+        isHebrewYear: false,
+        location: location,
+        il: false,
+        sedrot: true,
+        dafyomi: true,
+        omer: true,
+        addHebrewDates: true,
+      };
+      const events = hebcal.HebrewCalendar.calendar(options);
+      const fcEvents = events.map((ev) => {
+        const apiObj = hebcal__rest_api.eventToFullCalendar(ev, location.tzid);
+        if (ev.getFlags() & hebcal.flags.PARSHA_HASHAVUA) {
+          const reading = hebcal__leyning.getLeyningForParshaHaShavua(ev, options.il);
+          if (reading.summary) {
+            apiObj.description = `Torah: ${reading.summary}`;
+          }
+          if (reading.haftara) {
+            apiObj.description += `<br>Haftara: ${reading.haftara}`;
+          }
+        }
+        return apiObj;
+      });
+      successCallback(fcEvents);
+    },
+    eventDidMount: function(info) {
+      if (info.event.extendedProps.description) {
+        tippy(info.el, {
+          content: info.event.extendedProps.description,
+          allowHTML: true,
+        });
+      }
+    },
+  });
+  calendar.render();
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.keyCode == 37) {
+      window['hebcalFullCalendar'].prev();
+    } else if (e.keyCode == 39) {
+      window['hebcalFullCalendar'].next();
+    }
+});
+</script>
+
+ </div>
+    </div>
+        </div>
             </div>
         </div>
-    </section>
     </div>
-    <main>
+</div>
+
 <section class="work contenedor" id="trabajo">
 <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&amp;display=swap" rel="stylesheet">
 <div class="texto-video">
             <h3-2>Calendario</h3-2>
-    <div class="texto-video">
-        <h2-2>5782</h2-2>
-        <section class="work contenedor" id="trabajo">
-            <p class="after"> </p>
-            
-            </div>
-            <div class="galeria-work">
-                <div class="cont-work calendario">
-                        <object data="Date-Calendar/hebcal_5782h (1).pdf" type="application/pdf" width="100%" height="100%">
-  <p>Calendario y Fechas Judias para 5782<a href="Date-Calendar/hebcal_5782h (1).pdf">PDF</a></p>
-</object>
-
- </div>
- </div>
-
-
-                    </div>
-                </div>
-                    </div>
-                </div>
-            </div>
              <section class="work contenedor" id="trabajo">
             <p class="aafter"> </p>
         </section>
+
 
 
             <div class="galeria-work">
@@ -242,11 +257,54 @@ myCalendar.showCalendar();
     </section></main>
 
 
-<body><center>
-    <!--Start MyZmanim Widget for: https://torah-kids-puppets.github.io/  -->
-<script type="text/javascript" charset="UTF-8" language="javascript" src="https://www.myzmanim.com/widget.aspx?lang=es&mode=Standard&fsize=9&fcolor=003BBE&hcolor=EBF1FF&bcolor=C0C0C0&suf=s&key=S5j0JMyrDtuc0efalTjxxUuY0Czo1yaq6ISKOpPGbC3y8GFGsVXiEHyKEvG4TKZwLDgewPudGZSu%2f8TseB5BV3L6EyB2gMjDka9xTQm5fltSxCiIIpJSYIkKYq2X1EKO"></script><noscript style="font-family:verdana;">Find your daily zmanim at <a href="http://www.myzmanim.com/">MyZmanim.com</a>.</noscript>
-<!--End MyZmanim Widget-->
-</center></body>
+    <section class="about-us">
+
+            <section class="" id="Options">
+        <a id="Options"></a>
+
+        <div class="contenedor1">
+            <h2 class="titulo">Diferentes Calendarios</h2>
+            <div class="contenedor-articulo">
+                <div class="articulo" data-aos="zoom-in-right">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <h3></h3>
+                    <div class="texto-video">
+                    <h12>My Zmanim</h12></div>
+                    <p>Calendario</br>
+ <p>Accede a el calendario desde el lugar donde te encuentres. Este calendario es de la página <a href="https://www.myzmanim.com/" target="_blank">myzmanim.com</a></p>
+                    <a href="#myzmanim">Ir ---></a>
+                </div>
+                <div class="articulo" data-aos="zoom-in-right">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3></h3>
+                    <div class="texto-video">
+                    <h12>Calendario</h12></div>
+                    <p>Jabad Español</br>
+ <p>Accede a el calendario proporcionado por Jabad.</p>
+                    <a href="https://es.chabad.org/calendar/view/month.htm" target="_blank">Ir ---></a>
+                </div>
+                <div class="articulo" data-aos="zoom-in-right">
+                    <i class="fa fa-calendar-o"></i>
+                    <h3></h3>
+                    <div class="texto-video">
+                    <h12>Calendario</h12></div>
+                    <p>Aish Latino</br>
+ <p>Calendario proporcionado por Aish Latino</p>
+                    <a href="https://secure.aish.com/dogood/calendar/aishcal-f-sp.php" target="_blank">Ir ---></a>
+                </div>
+                <div class="articulo" data-aos="zoom-in-right">
+                    <i class="fa fa-calendar-check-o"></i>
+                    <h3></h3>
+                    <div class="texto-video">
+                    <h12>Calendario</h12></div>
+                    <p>Hebcal</br>
+ <p>Calendario proporcionado por Hebcal; puedes descargar este calendario desde su página <a href="https://www.hebcal.com/hebcal" target="_blank">-Aquí-</a></p>
+                    <a href="https://www.hebcal.com/hebcal" target="_blank">Ir ---></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
 
                 </div>
 
