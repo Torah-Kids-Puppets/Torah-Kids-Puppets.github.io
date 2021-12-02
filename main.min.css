@@ -561,7 +561,7 @@
 
 .fc-theme-bootstrap a:not([href]){color:inherit}
 
-@media screen and (max-width:600px){
+@media screen and (max-width:350px){
 .fc{
     display:none;
     flex-direction:column;
