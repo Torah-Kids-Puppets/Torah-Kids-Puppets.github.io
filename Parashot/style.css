@@ -12,7 +12,10 @@
 {
     --clr: #222327
 }
-
+#navmenu{
+     position: fixed;
+bottom: 0px;
+}
 .navigation
 {
      display: flex;
