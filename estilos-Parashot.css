@@ -28,8 +28,8 @@ background-image: linear-gradient(45deg, #00aeff, #00fff3);
 
 header{
   width: 100%;
-  height:600px;
-  background: url(img/lec1.jpg);
+  height:550px;
+  background: url(img/PKP-Portada.jpg);
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
@@ -584,12 +584,13 @@ font-family: 'David Libre', serif;
 }
 
 .contenedor-img img{
-    width: 100%;
+    height: 100%;
 }
 
 .articulo img {
+  object-fit: cover;
+    height: 195px;
     width: 100%;
-    height: 100%;
 }
 
 .articulo>p {
@@ -751,11 +752,11 @@ text-decoration: none;
 
 .services {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .services>img {
-    width: 500px;
+    width: 350px;
 }
 
 .box-skills {
@@ -1144,7 +1145,7 @@ footer {
 @media screen and (max-width: 500px){
 
     .cards .card{
-        width: 97%;
+        width: 95%;
         height: auto;
         display: flex;
         flex-direction: column;
@@ -1162,7 +1163,106 @@ footer {
     margin-bottom: 2px;
     font-size: 70px;
     color:#ffffff;
-    font-family: 'Acme', sans-serif;
+}
+
+.cards .card > .contenido-texto-card p{
+font-size: 25px; 
+font-weight: 300;
+    color:#ffffff;
+font-family: 'Marck Script', cursive;
+}
+
+@media screen and (max-width: 800px){
+
+    .cards .card{
+        width: 90%;
+        margin-left: 5%;
+        margin-right:5%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+  .content-card{
+    width: 55%;
+  }
+
+  .contenido-texto-card h1{
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 70px;
+    color:#ffffff;
+}
+
+.cards .card > .contenido-texto-card p{
+font-size: 25px; 
+font-weight: 300;
+    color:#ffffff;
+font-family: 'Marck Script', cursive;
 }
     }
+}
+
+@media screen and (max-width: 600px){
+
+    .cards .card{
+        width: 95%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+  .content-card{
+    width: 55%;
+  }
+
+  .contenido-texto-card h1{
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 70px;
+    color:#ffffff;
+}
+
+.cards .card > .contenido-texto-card p{
+font-size: 25px; 
+font-weight: 300;
+    color:#ffffff;
+font-family: 'Marck Script', cursive;
+}
+}
+
+@media screen and (max-width: 700px){
+
+    .cards .card{
+        width: 95%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+  .content-card{
+    width: 55%;
+  }
+
+  .contenido-texto-card h1{
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 70px;
+    color:#ffffff;
+}
+
+.cards .card > .contenido-texto-card p{
+font-size: 25px; 
+font-weight: 300;
+    color:#ffffff;
+font-family: 'Marck Script', cursive;
 }
