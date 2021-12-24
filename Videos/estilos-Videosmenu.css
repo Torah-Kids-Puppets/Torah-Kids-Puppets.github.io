@@ -519,7 +519,7 @@ font-family: 'David Libre', serif;
 
 .articulo {
     width: 300px;
-    height: 100%;
+    height: auto;
     background: #fff;
     margin-bottom: 30px;
     border-radius: 10px;
@@ -587,6 +587,8 @@ font-family: 'David Libre', serif;
 }
 
 .articulo img {
+  object-fit: cover;
+    height: 165px;
     width: 100%;
 }
 
