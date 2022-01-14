@@ -38,6 +38,7 @@ body{
     opacity: var(--opacity);
     pointer-events: var(--pointer);
     transition: opacity .5s;
+    z-index: 100;
 }
 
 .modal:target{
@@ -52,7 +53,7 @@ body{
     width: 90%;
     max-width: 550px;
     max-height: 85%;
-    overflow: hidden;
+    overflow: overlay;
     text-align: center;
     padding: 2.7em 1.75em;
     border-radius: 1em;
