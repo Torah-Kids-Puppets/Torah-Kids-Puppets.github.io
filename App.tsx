@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View } from './types';
-import { Button } from './components/Button';
 import { AlefBetBoard } from './components/AlefBetBoard';
 import { QuizArena } from './components/QuizArena';
 import { ParashaCorner } from './components/ParashaCorner';

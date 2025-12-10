@@ -121,6 +121,8 @@ export const QuizArena: React.FC<QuizArenaProps> = ({ onBack }) => {
   }
 
   const currentQ = quizData?.questions[currentQuestionIndex];
+  
+  if (!currentQ) return null;
 
   return (
     <div className="flex flex-col items-center max-w-4xl mx-auto w-full p-4">

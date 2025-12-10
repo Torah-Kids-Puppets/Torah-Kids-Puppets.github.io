@@ -304,7 +304,7 @@ export const VideoRoom: React.FC<VideoRoomProps> = ({ onBack, initialVideoId }) 
                  
                  {relatedVideos.length > 0 && (
                      <div className="flex gap-4 overflow-x-auto pb-8 snap-x scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                        {relatedVideos.map((video, idx) => (
+                        {relatedVideos.map((video) => (
                            <div 
                                key={video.id}
                                onClick={() => setPlayingVideo(video)}

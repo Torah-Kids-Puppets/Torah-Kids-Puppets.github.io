@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from './Button';
-import { PuppetCharacter } from '../types';
 
 interface CharacterGalleryProps {
   onBack: () => void;
