@@ -20,7 +20,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
       <div className="mb-4 animate-float flex justify-center w-full relative min-h-[120px] items-center">
           {!imageError ? (
             <img 
-                src="img/logo.png" 
+                src="./img/logo.png" 
                 alt="Torah Kids Puppets" 
                 className="w-auto h-auto max-w-[260px] md:max-w-[380px] object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500 z-10"
                 onError={() => setImageError(true)}
@@ -139,7 +139,7 @@ export default function App() {
             <nav className="bg-white/90 backdrop-blur-md px-6 py-2 rounded-full shadow-lg border-2 border-torah-blue-light flex flex-wrap justify-center gap-3 md:gap-8 items-center max-w-full overflow-x-auto">
                <button onClick={() => setCurrentView(View.HOME)} className="hover:scale-105 transition-transform active:scale-95 flex items-center" title="Inicio">
                   <img 
-                    src="img/logo.png" 
+                    src="./img/logo.png" 
                     alt="Inicio" 
                     className="h-10 w-auto object-contain drop-shadow-sm"
                   />
