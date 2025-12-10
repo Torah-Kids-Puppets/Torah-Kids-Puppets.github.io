@@ -16,11 +16,13 @@ interface CastMember {
     borderColor: string;
 }
 
+// NOTA: Las imágenes deben estar en la carpeta public/img/characters/
+// Asegúrate de que los nombres de archivo coincidan exactamente (yosef.png, keter.png, etc.)
 const cast: CastMember[] = [
     { 
         name: 'Yosef', 
         icon: '👦', 
-        image: './img/characters/yosef.png',
+        image: '/img/characters/yosef.png',
         role: 'Presentador y Director de Producción', 
         bio: 'Es nuestro personaje principal y el Director de Producción del programa. Junto a la Princesa, te introduce los temas y te da resúmenes fáciles de entender. ¡Es el alma de Torá Kids Puppets!',
         colorClass: 'bg-blue-50 text-torah-blue-deep',
@@ -29,7 +31,7 @@ const cast: CastMember[] = [
     { 
         name: 'Princesa Keter', 
         icon: '👸', 
-        image: './img/characters/keter.png',
+        image: '/img/characters/keter.png',
         role: 'Reportera y Presentadora', 
         bio: 'Es una de nuestras reporteras estrella. Le encanta cocinar panquesillos 🧁. Ella te explica los temas de forma breve, sencilla y divertida para que aprendas rápido.',
         colorClass: 'bg-pink-50 text-pink-800',
@@ -38,16 +40,16 @@ const cast: CastMember[] = [
     { 
         name: 'Arush', 
         icon: '👨‍🚒', 
-        image: './img/characters/arush.png',
+        image: '/img/characters/arush.png',
         role: 'El Bombero', 
         bio: '¡Boom! Es el experto en la "llama interna" 🔥. Sabe cómo apagar las llamas de las peleas que surgen entre nosotros. Arush te explica las cosas difíciles de forma súper resumida y fácil de comprender.',
         colorClass: 'bg-red-50 text-red-800',
         borderColor: 'border-red-400'
     },
     { 
-        name: 'Dr. Avraham', 
+        name: 'Dr. Avraham (Avi)', 
         icon: '👨‍⚕️', 
-        image: './img/characters/avraham.png',
+        image: '/img/characters/avraham.png',
         role: 'Médico y Jefe de Edición', 
         bio: 'Es nuestro Médico 🩺 y nuestro Jefe de Cámaras y Edición 🎥. Te explica todo detalladamente para que no pierdas ni un solo detalle.',
         colorClass: 'bg-teal-50 text-teal-800',
@@ -56,7 +58,7 @@ const cast: CastMember[] = [
     { 
         name: 'Benny', 
         icon: '🌀', 
-        image: './img/characters/benny.png',
+        image: '/img/characters/benny.png',
         role: 'El Curioso', 
         bio: 'Siempre lleno de energía y preguntas. Benny representa a todos los niños que quieren aprender. A veces se confunde un poco, ¡pero eso hace que aprender sea más divertido!',
         colorClass: 'bg-orange-50 text-orange-800',
@@ -65,7 +67,7 @@ const cast: CastMember[] = [
     { 
         name: 'Aharón', 
         icon: '🕊️', 
-        image: './img/characters/aharon.png',
+        image: '/img/characters/aharon.png',
         role: 'El Pacificador', 
         bio: 'Ama la paz y persigue la paz. Como el Aharón de la Torá, siempre busca que todos se lleven bien y nos enseña sobre el amor al prójimo.',
         colorClass: 'bg-purple-50 text-purple-800',
@@ -74,7 +76,7 @@ const cast: CastMember[] = [
     { 
         name: 'Ezra', 
         icon: '👮', 
-        image: './img/characters/ezra.png',
+        image: '/img/characters/ezra.png',
         role: 'El Guardián', 
         bio: 'Ezra ayuda a mantener el orden y nos recuerda la importancia de cumplir las reglas y las Mitzvot con cuidado y atención.',
         colorClass: 'bg-indigo-50 text-indigo-800',
@@ -86,22 +88,25 @@ const cast: CastMember[] = [
 const CharacterAvatar: React.FC<{ member: CastMember }> = ({ member }) => {
     const [imgError, setImgError] = useState(false);
 
+    // Si ocurre un error, mostramos el emoji con un estilo bonito
+    if (imgError) {
+        return (
+            <div className={`w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center border-4 bg-white shadow-md mb-4 transform hover:scale-110 transition-transform duration-300 relative z-10 ${member.borderColor}`}>
+                 <span className="text-6xl md:text-7xl filter drop-shadow-sm">{member.icon}</span>
+            </div>
+        );
+    }
+
+    // Si la imagen carga bien
     return (
-        <div className="relative z-10 mb-4 transform hover:scale-110 transition-transform duration-300">
-            {!imgError ? (
-                <div className={`w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 bg-white shadow-md ${member.borderColor.replace('border', 'border')}`}>
-                    <img 
-                        src={member.image} 
-                        alt={member.name}
-                        className="w-full h-full object-cover"
-                        onError={() => setImgError(true)}
-                    />
-                </div>
-            ) : (
-                <div className="text-8xl drop-shadow-md">
-                    {member.icon}
-                </div>
-            )}
+        <div className={`w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 bg-white shadow-md mb-4 transform hover:scale-110 transition-transform duration-300 relative z-10 ${member.borderColor}`}>
+            <img 
+                src={member.image} 
+                alt={member.name}
+                className="w-full h-full object-cover"
+                onError={() => setImgError(true)}
+                loading="lazy"
+            />
         </div>
     );
 };
