@@ -45,11 +45,11 @@ const cast: CastMember[] = [
         borderColor: 'border-red-400'
     },
     { 
-        name: 'Dr. Avraham (Avi)', 
+        name: 'Dr. Avraham', 
         icon: '👨‍⚕️', 
         image: './img/characters/avraham.png',
         role: 'Médico y Jefe de Edición', 
-        bio: 'Es nuestro Médico 🩺 (arregla corazoncitos rotos) y nuestro Jefe de Cámaras y Edición 🎥. Él es quien graba a Yosef y edita este sitio web. Te explica todo detalladamente para que no pierdas ni un solo detalle.',
+        bio: 'Es nuestro Médico 🩺 y nuestro Jefe de Cámaras y Edición 🎥. Te explica todo detalladamente para que no pierdas ni un solo detalle.',
         colorClass: 'bg-teal-50 text-teal-800',
         borderColor: 'border-torah-teal'
     },
