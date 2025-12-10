@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from './Button';
-import { TORAH_DB } from '../services/geminiService';
+import { TORAH_DB } from '../services/dataService';
 import { ParashaContent, TorahBook } from '../types';
 
 interface ParashaCornerProps {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from './Button';
-import { getHolidayInfo } from '../services/geminiService';
+import { getHolidayInfo } from '../services/dataService';
 
 interface HolidayHallProps {
   onBack: () => void;

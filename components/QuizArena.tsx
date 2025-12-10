@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from './Button';
-import { generateQuiz } from '../services/geminiService';
+import { generateQuiz } from '../services/dataService';
 import { QuizData } from '../types';
 
 interface QuizArenaProps {

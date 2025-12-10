@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from './Button';
 
 interface CharacterGalleryProps {
   onBack: () => void;
 }
 
-const cast: { name: string; icon: string; role: string; bio: string; colorClass: string; borderColor: string }[] = [
+// Interfaz actualizada para incluir la ruta de la imagen
+interface CastMember {
+    name: string;
+    icon: string; // Emoji de respaldo
+    image: string; // Ruta de la imagen real
+    role: string;
+    bio: string;
+    colorClass: string;
+    borderColor: string;
+}
+
+const cast: CastMember[] = [
     { 
         name: 'Yosef', 
         icon: '👦', 
+        image: './img/characters/yosef.png',
         role: 'Presentador y Director de Producción', 
         bio: 'Es nuestro personaje principal y el Director de Producción del programa. Junto a la Princesa, te introduce los temas y te da resúmenes fáciles de entender. ¡Es el alma de Torá Kids Puppets!',
         colorClass: 'bg-blue-50 text-torah-blue-deep',
@@ -17,6 +29,7 @@ const cast: { name: string; icon: string; role: string; bio: string; colorClass:
     { 
         name: 'Princesa Keter', 
         icon: '👸', 
+        image: './img/characters/keter.png',
         role: 'Reportera y Presentadora', 
         bio: 'Es una de nuestras reporteras estrella. Le encanta cocinar panquesillos 🧁. Ella te explica los temas de forma breve, sencilla y divertida para que aprendas rápido.',
         colorClass: 'bg-pink-50 text-pink-800',
@@ -25,6 +38,7 @@ const cast: { name: string; icon: string; role: string; bio: string; colorClass:
     { 
         name: 'Arush', 
         icon: '👨‍🚒', 
+        image: './img/characters/arush.png',
         role: 'El Bombero', 
         bio: '¡Boom! Es el experto en la "llama interna" 🔥. Sabe cómo apagar las llamas de las peleas que surgen entre nosotros. Arush te explica las cosas difíciles de forma súper resumida y fácil de comprender.',
         colorClass: 'bg-red-50 text-red-800',
@@ -33,6 +47,7 @@ const cast: { name: string; icon: string; role: string; bio: string; colorClass:
     { 
         name: 'Dr. Avraham (Avi)', 
         icon: '👨‍⚕️', 
+        image: './img/characters/avraham.png',
         role: 'Médico y Jefe de Edición', 
         bio: 'Es nuestro Médico 🩺 (arregla corazoncitos rotos) y nuestro Jefe de Cámaras y Edición 🎥. Él es quien graba a Yosef y edita este sitio web. Te explica todo detalladamente para que no pierdas ni un solo detalle.',
         colorClass: 'bg-teal-50 text-teal-800',
@@ -41,6 +56,7 @@ const cast: { name: string; icon: string; role: string; bio: string; colorClass:
     { 
         name: 'Benny', 
         icon: '🌀', 
+        image: './img/characters/benny.png',
         role: 'El Curioso', 
         bio: 'Siempre lleno de energía y preguntas. Benny representa a todos los niños que quieren aprender. A veces se confunde un poco, ¡pero eso hace que aprender sea más divertido!',
         colorClass: 'bg-orange-50 text-orange-800',
@@ -49,6 +65,7 @@ const cast: { name: string; icon: string; role: string; bio: string; colorClass:
     { 
         name: 'Aharón', 
         icon: '🕊️', 
+        image: './img/characters/aharon.png',
         role: 'El Pacificador', 
         bio: 'Ama la paz y persigue la paz. Como el Aharón de la Torá, siempre busca que todos se lleven bien y nos enseña sobre el amor al prójimo.',
         colorClass: 'bg-purple-50 text-purple-800',
@@ -57,12 +74,37 @@ const cast: { name: string; icon: string; role: string; bio: string; colorClass:
     { 
         name: 'Ezra', 
         icon: '👮', 
+        image: './img/characters/ezra.png',
         role: 'El Guardián', 
         bio: 'Ezra ayuda a mantener el orden y nos recuerda la importancia de cumplir las reglas y las Mitzvot con cuidado y atención.',
         colorClass: 'bg-indigo-50 text-indigo-800',
         borderColor: 'border-indigo-300'
     },
 ];
+
+// Sub-componente para manejar la carga de imagen individualmente
+const CharacterAvatar: React.FC<{ member: CastMember }> = ({ member }) => {
+    const [imgError, setImgError] = useState(false);
+
+    return (
+        <div className="relative z-10 mb-4 transform hover:scale-110 transition-transform duration-300">
+            {!imgError ? (
+                <div className={`w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 bg-white shadow-md ${member.borderColor.replace('border', 'border')}`}>
+                    <img 
+                        src={member.image} 
+                        alt={member.name}
+                        className="w-full h-full object-cover"
+                        onError={() => setImgError(true)}
+                    />
+                </div>
+            ) : (
+                <div className="text-8xl drop-shadow-md">
+                    {member.icon}
+                </div>
+            )}
+        </div>
+    );
+};
 
 export const CharacterGallery: React.FC<CharacterGalleryProps> = ({ onBack }) => {
   return (
@@ -78,9 +120,11 @@ export const CharacterGallery: React.FC<CharacterGalleryProps> = ({ onBack }) =>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full justify-center">
           {cast.map((c) => (
               <div key={c.name} className={`rounded-[2.5rem] p-6 border-4 flex flex-col items-center text-center shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 bg-white relative overflow-hidden ${c.borderColor}`}>
-                  <div className={`absolute top-0 left-0 w-full h-24 ${c.colorClass} opacity-50 rounded-b-[50%] transform -translate-y-12 scale-150`}></div>
+                  {/* Fondo decorativo superior */}
+                  <div className={`absolute top-0 left-0 w-full h-24 ${c.colorClass} opacity-50 rounded-b-[50%] transform -translate-y-8 scale-150`}></div>
                   
-                  <div className="text-8xl mb-4 drop-shadow-md relative z-10 transform hover:scale-110 transition-transform">{c.icon}</div>
+                  {/* Avatar Inteligente (Imagen o Emoji) */}
+                  <CharacterAvatar member={c} />
                   
                   <h3 className="text-2xl font-display font-extrabold text-gray-800 mb-2 relative z-10">{c.name}</h3>
                   
