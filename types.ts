@@ -7,6 +7,7 @@ export enum View {
   HOLIDAYS = 'HOLIDAYS',
   VIDEOS = 'VIDEOS',
   CHARACTERS = 'CHARACTERS',
+  BRACHOT = 'BRACHOT', // Nueva vista de bendiciones
 }
 
 // --- TIPOS DEL QUIZ GLOBAL ---
@@ -42,7 +43,13 @@ export interface ParashaContent {
   videoId: string; // ID de YouTube
   activity?: string; // Reflexión filosófica/Middot
   
-  // Nuevos campos inspirados en el sitio antiguo
+  // Nuevos campos mejorados
+  funFact?: string; // Dato curioso "¿Sabías qué?"
+  keyword?: {       // Palabra en hebreo de la semana
+      word: string;
+      translation: string;
+      icon: string;
+  }; 
   quiz?: ParashaQuizQuestion[]; 
 }
 

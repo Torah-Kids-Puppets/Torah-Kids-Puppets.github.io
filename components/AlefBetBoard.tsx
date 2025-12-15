@@ -33,6 +33,28 @@ const LETTERS = [
 export const AlefBetBoard: React.FC<AlefBetBoardProps> = ({ onBack }) => {
   const [selected, setSelected] = useState<typeof LETTERS[0] | null>(null);
 
+  const handleLetterClick = (letter: typeof LETTERS[0]) => {
+    setSelected(letter);
+    
+    // --- LÓGICA DE AUDIO NATIVO (GRATIS) ---
+    if ('speechSynthesis' in window) {
+      // 1. Detener cualquier audio anterior
+      window.speechSynthesis.cancel();
+      
+      // 2. Crear la "pronunciación"
+      const utterance = new SpeechSynthesisUtterance(letter.name);
+      
+      // 3. Configuración
+      // Intentamos usar hebreo, si no está disponible, usará la voz por defecto del sistema
+      utterance.lang = 'he-IL'; 
+      utterance.rate = 0.8; // Un poco más lento para que sea claro para niños
+      utterance.pitch = 1.1; // Un tono un poco más alegre/agudo
+      
+      // 4. Hablar
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center max-w-6xl mx-auto p-4 w-full animate-fade-in">
       <div className="w-full flex justify-between items-center mb-6">
@@ -50,10 +72,10 @@ export const AlefBetBoard: React.FC<AlefBetBoardProps> = ({ onBack }) => {
             {LETTERS.map((l) => (
               <button
                 key={l.name}
-                onClick={() => setSelected(l)}
-                className={`aspect-square rounded-2xl flex flex-col items-center justify-center text-3xl md:text-4xl font-bold transition-all transform hover:scale-110 shadow-sm border-2 ${
+                onClick={() => handleLetterClick(l)}
+                className={`aspect-square rounded-2xl flex flex-col items-center justify-center text-3xl md:text-4xl font-bold transition-all transform hover:scale-110 shadow-sm border-2 active:scale-95 ${
                   selected?.name === l.name 
-                    ? 'bg-torah-gold text-white border-yellow-500 scale-105 shadow-md' 
+                    ? 'bg-torah-gold text-white border-yellow-500 scale-105 shadow-md ring-4 ring-yellow-200' 
                     : 'bg-blue-50 text-torah-blue-deep border-blue-100 hover:bg-blue-100'
                 }`}
               >
@@ -77,11 +99,17 @@ export const AlefBetBoard: React.FC<AlefBetBoardProps> = ({ onBack }) => {
                     <span className="font-bold text-torah-blue-deep">{selected.char}</span> de <span className="font-bold text-torah-blue-deep">{selected.word}</span>
                   </p>
                 </div>
+                <button 
+                  onClick={() => handleLetterClick(selected)}
+                  className="mt-6 text-sm bg-blue-100 text-blue-600 px-4 py-2 rounded-full font-bold hover:bg-blue-200 transition-colors flex items-center justify-center gap-2 mx-auto"
+                >
+                  🔊 Escuchar de nuevo
+                </button>
               </div>
             ) : (
               <div className="opacity-50">
                 <span className="text-8xl block mb-4">👆</span>
-                <p className="text-2xl font-display font-bold text-gray-400">Toca una letra para aprender</p>
+                <p className="text-2xl font-display font-bold text-gray-400">Toca una letra para escuchar</p>
               </div>
             )}
             

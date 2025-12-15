@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './Button';
 
 interface VideoRoomProps {
@@ -6,7 +6,18 @@ interface VideoRoomProps {
   initialVideoId?: string | null;
 }
 
-type Category = 'BERESHIT' | 'SHEMOT' | 'VAYIKRA' | 'BAMIDBAR' | 'DEVARIM' | 'HOLIDAYS' | 'STORIES' | 'SHABAT';
+// Actualizamos los tipos para incluir las nuevas categorías de Shorts
+type Category = 
+  'HOLIDAYS' | 
+  'SHABAT' | 
+  'STORIES_PARASHA' | 
+  'STORIES_TRADITION' | 
+  'BERESHIT' | 
+  'SHEMOT' | 
+  'VAYIKRA' |
+  'SHORTS_BERESHIT' |
+  'SHORTS_SHEMOT' |
+  'SHORTS_VAYIKRA';
 
 interface YoutubeVideo {
   id: string;
@@ -16,137 +27,145 @@ interface YoutubeVideo {
   description?: string;
 }
 
-// --- CONFIGURACIÓN DE CATEGORÍAS (Cintas) ---
+// --- CONFIGURACIÓN DE CATEGORÍAS (Nueva Jerarquía) ---
 const categories: { id: Category; label: string; }[] = [
+    // 1. Lo más destacado y recurrente
     { id: 'HOLIDAYS', label: '🎉 Fiestas y Especiales' },
-    { id: 'SHABAT', label: '🕯️ Shabat Shalom' },
-    { id: 'BERESHIT', label: '🦁 Libro de Bereshit' },
-    { id: 'SHEMOT', label: '🌊 Libro de Shemot' },
-    { id: 'VAYIKRA', label: '⚖️ Libro de Vayikrá' },
-    { id: 'STORIES', label: '📖 Cuentos e Historias' },
+    { id: 'SHABAT', label: '🕯️ Shabat' },
+    
+    // 2. Bloque Bereshit (Estudio + Shorts)
+    { id: 'BERESHIT', label: '🦁 Libro de Bereshit (Estudios)' },
+    { id: 'SHORTS_BERESHIT', label: '⏱️ Bereshit en 1 Minuto' },
+
+    // 3. Bloque Shemot (Estudio + Shorts)
+    { id: 'SHEMOT', label: '🌊 Libro de Shemot (Estudios)' },
+    { id: 'SHORTS_SHEMOT', label: '⏱️ Shemot en 1 Minuto' },
+
+    // 4. Bloque Vayikrá (Estudio + Shorts)
+    { id: 'VAYIKRA', label: '⚖️ Libro de Vayikrá (Estudios)' },
+    { id: 'SHORTS_VAYIKRA', label: '⏱️ Vayikrá en 1 Minuto' },
+
+    // 5. Cuentos e Historias (Al final)
+    { id: 'STORIES_PARASHA', label: '🎭 Cuentos de la Parashá' },
+    { id: 'STORIES_TRADITION', label: '📖 Cuentos de la Tradición' },
 ];
 
-// --- LISTA COMPLETA DE VIDEOS ---
+// --- LISTA ACTUALIZADA Y CLASIFICADA ---
 const allVideos: YoutubeVideo[] = [
-    // --- SPECIAL FEATURED (GENERAL INTRO) ---
-    { id: 'dd8Bz3RAkgQ', title: '¿De qué trata la Torá? - Introducción Especial', duration: '27:57', category: 'STORIES', description: '¡Bienvenidos a Torah Kids Puppets! Descubre junto a Yosef, Benny y el Doc de qué se trata el libro más importante del mundo. En este episodio especial, aprenderemos por qué la Torá es nuestro mapa de vida, llena de historias increíbles, mitzvot y secretos para ser mejores personas cada día.' },
-
-    // --- BERESHIT (Génesis) ---
-    { id: 'XCP6sLsrT6Q', title: 'Parashat 1 Bereshit - Parashá en un minuto', duration: '0:59', category: 'BERESHIT' },
-    { id: '8rAPAkIKRHE', title: 'Parashat 1 Bereshit - Estudio Completo', duration: '9:34', category: 'BERESHIT' },
-    { id: 'bUu2W_fGqo8', title: 'Resumen Parashat 1 Bereshit con el Doc', duration: '5:59', category: 'BERESHIT' },
-    { id: 'oLAULPrPEj8', title: 'Parashá 2 Noaj - Parashá en un minuto', duration: '0:59', category: 'BERESHIT' },
-    { id: 'sMd0opDs2Ss', title: 'Estudiemos Parashat 2 Nóaj', duration: '12:49', category: 'BERESHIT' },
-    { id: '6YoVDp5Jeqs', title: 'Resumen Parashat 2 Nóaj con el Doc', duration: '6:57', category: 'BERESHIT' },
-    { id: 'hh4ppg7E5yI', title: 'Parashat 3 Lej Lejá - Parashá en un minuto', duration: '1:00', category: 'BERESHIT' },
-    { id: 've0VT8f00fY', title: 'Estudiemos Parashat 3 Lej Lejá', duration: '13:17', category: 'BERESHIT' },
-    { id: '--Z6J-rIgrk', title: 'Parashat 4 Vaierá - Estudio Completo', duration: '7:05', category: 'BERESHIT' },
-    { id: 'oGBrpfV6Wug', title: 'Parashat 4 Vaierá - Parashá en un minuto', duration: '1:00', category: 'BERESHIT' },
-    { id: 'msarrAETqGI', title: 'Parashá 5 Jaié Sará', duration: '0:59', category: 'BERESHIT' },
-    { id: 'zkBk1z0u5-Q', title: 'Estudiemos Parashat 5 Jaié Saráh', duration: '5:59', category: 'BERESHIT' },
-    { id: '-wxWR4UiXXI', title: 'Parashá 6 Toldot - Títeres', duration: '0:59', category: 'BERESHIT' },
-    { id: '5GJFMWdIGbo', title: 'Parashat 6 Toldot - Estudio', duration: '5:23', category: 'BERESHIT' },
-    { id: 'Olinh9ZgvYk', title: 'Parashá 7 Vaietzé', duration: '0:56', category: 'BERESHIT' },
-    { id: 'biWskHeVKpU', title: 'Parashat 7 Vaietzé - Estudio', duration: '7:14', category: 'BERESHIT' },
-    { id: 'pow5BUl1A5M', title: 'Parashá 8 Vaishlaj', duration: '0:55', category: 'BERESHIT' },
-    { id: 'GOfB9q9vb_8', title: 'Parashat 8 Vaishlaj - Estudio', duration: '5:26', category: 'BERESHIT' },
-    { id: 'mNPB8ICD0i8', title: 'Parashá 9 Vaieshev', duration: '1:00', category: 'BERESHIT' },
-    { id: 'LeF_n_OXbNo', title: 'Parashat 9 Vaieshev - Estudio', duration: '4:48', category: 'BERESHIT' },
-    { id: 'upcJnnNbcO8', title: 'Parashá 10 Miketz', duration: '1:00', category: 'BERESHIT' },
-    { id: 'C3NQV3plamY', title: 'Parashat 10 Miketz - Estudio', duration: '6:00', category: 'BERESHIT' },
-    { id: 'w4GK3pplW_Y', title: 'Parashá 11 Vaigash', duration: '0:57', category: 'BERESHIT' },
-    { id: 'VfLg8ivtdFU', title: 'Parashat 11 Vaigash - Estudio', duration: '3:58', category: 'BERESHIT' },
-    { id: 'p4gsg2bZ3jo', title: 'Parashá 12 Vaiejí', duration: '1:00', category: 'BERESHIT' },
-    { id: 'WsR2TAyVZoY', title: 'Parashat 12 Vaieji - Estudio', duration: '5:02', category: 'BERESHIT' },
-
-    // --- SHEMOT (Éxodo) ---
-    { id: 'wWVrrqyVRls', title: 'Parashat 13 Shemot - Estudio Completo', duration: '8:32', category: 'SHEMOT' },
-    { id: '0ZJUre6RjiY', title: 'Parashat 13 Shemot - Corto', duration: '0:55', category: 'SHEMOT' },
-    { id: 'SDqAXlAfFj4', title: 'Parashat 14 Vaera - Corto', duration: '1:00', category: 'SHEMOT' },
-    { id: 'r7fX55dNlqc', title: 'Parashat 14 Vaerá - Estudio', duration: '8:36', category: 'SHEMOT' },
-    { id: 'FAgIYC7KhpU', title: 'Parashat 15 Bo - Estudio', duration: '12:38', category: 'SHEMOT' },
-    { id: 'IFzPSegUYO4', title: 'Parsha en un minuto 15 Bo', duration: '0:44', category: 'SHEMOT' },
-    { id: 'AwKQLzKyW5s', title: 'Parashat 16 Beshalaj - Estudio', duration: '11:27', category: 'SHEMOT' },
-    { id: 'tWHKCkFBjvE', title: 'Parsha en un minuto 16 Beshalaj', duration: '0:47', category: 'SHEMOT' },
-    { id: 'sHnaggaoroY', title: 'Parashat 17 Itró - Estudio', duration: '11:23', category: 'SHEMOT' },
-    { id: '1ieTbEKPlRs', title: 'Parsha en un minuto 17 Itró', duration: '0:45', category: 'SHEMOT' },
-    { id: '8UBu-rCS5sA', title: 'Parashat 18 Mishpatim - Estudio', duration: '8:38', category: 'SHEMOT' },
-    { id: 'SOdBWtfb2hE', title: 'Parsha en un minuto 18 Mishapatim', duration: '0:52', category: 'SHEMOT' },
-    { id: 'VdY9Giv2laY', title: 'Parashat 19 Terumáh - Estudio', duration: '5:58', category: 'SHEMOT' },
-    { id: '3qsxRzFfggg', title: 'Parsha en un minuto 19 Terumah', duration: '0:48', category: 'SHEMOT' },
-    { id: 'g2akTy5BB0Q', title: 'Parashat 20 Tetzavé - Estudio', duration: '6:21', category: 'SHEMOT' },
-    { id: 'X6Y4-b4CG4M', title: 'Parsha en un minuto 20 Tetzaveh', duration: '0:48', category: 'SHEMOT' },
-    { id: 'Bd4lU_MYILU', title: 'Parashat 21 Ki Tisá - Estudio', duration: '7:19', category: 'SHEMOT' },
-    { id: 'pNfv65TyKDY', title: 'Parsha en un minuto 21 Ki tisa', duration: '0:49', category: 'SHEMOT' },
-    { id: 'DfeuzcRBfto', title: 'Parashat 22 Vayakel - Estudio', duration: '6:00', category: 'SHEMOT' },
-    { id: 'hyr1-ef09HM', title: 'Parsha en un minuto 22 Vayakel', duration: '0:43', category: 'SHEMOT' },
-    { id: 'yk8hXQzolOM', title: 'Parashat 23 Pekudéi - Estudio', duration: '4:42', category: 'SHEMOT' },
-    { id: 'rqyeTYOTRFM', title: 'Parsha en un minuto 23 Pekudei', duration: '0:50', category: 'SHEMOT' },
-
-    // --- VAYIKRA (Levítico) ---
-    { id: 'NwwUrSSDRvQ', title: 'Parashat 24 Vaikrá - Estudio', duration: '5:29', category: 'VAYIKRA' },
-    { id: 'EC-Nnceu_ms', title: 'Parsha en un minuto 24 Vaikra', duration: '0:45', category: 'VAYIKRA' },
-    { id: '81122QbTN70', title: 'Parashat Va\'Yikrá - Títeres', duration: '7:41', category: 'VAYIKRA' },
-    { id: 'ROVgp6HBYgI', title: '¿Qué es Va\'Yikrá?', duration: '4:56', category: 'VAYIKRA' },
-    { id: '1mDsNbou-Eg', title: 'Parashat 25 Tzav - Estudio', duration: '6:06', category: 'VAYIKRA' },
-    { id: 'X9IApkMzbSw', title: 'Parashat Tzav - Versión Larga', duration: '14:40', category: 'VAYIKRA' },
-    { id: 'uhGShtqf3l0', title: 'Parsha en un minuto 25 Tzav', duration: '0:53', category: 'VAYIKRA' },
-    { id: '9Nhcw27C7fU', title: 'Parashat 26 Sheminí - Estudio', duration: '6:52', category: 'VAYIKRA' },
-    { id: 'MwNi34vieEQ', title: 'Parsha en un minuto 26 Sheminí', duration: '0:52', category: 'VAYIKRA' },
-    { id: 'M4RI6h5RxyY', title: 'Parsha en un minuto 26 Sheminí (Corto)', duration: '0:43', category: 'VAYIKRA' },
-    { id: 'cUGfwEKJB_w', title: 'Parashat 27-28 Tazría-Metzorá', duration: '10:15', category: 'VAYIKRA' },
-    { id: '-ORflM1R4H4', title: 'Parashat 27 Tazria - Estudio', duration: '4:52', category: 'VAYIKRA' },
-    { id: '7LN0uQYABmU', title: 'Parashat 28 Metzora - Estudio', duration: '7:36', category: 'VAYIKRA' },
-
     // --- FIESTAS Y ESPECIALES ---
-    { id: 'Defyt5gOBQo', title: 'Hagadá, Puppets y Matzá: La Historia de Pésaj', duration: '20:34', category: 'HOLIDAYS', description: '¡Únete a Benny, Yosef y todo el elenco en esta aventura épica para salir de Egipto! Un especial lleno de humor, canciones y mucha Matzá.' },
-    { id: 'GHcExyGsd4o', title: 'Hagadá De Pesaj Animada (Clásica)', duration: '25:53', category: 'HOLIDAYS' },
-    { id: '5wE1ZTeTOIU', title: '¡La Chispa de Janucá!', duration: '11:10', category: 'HOLIDAYS' },
-    { id: 'vS3C7F1Okm4', title: 'Benny Has a Little Dreidel (Canción)', duration: '2:05', category: 'HOLIDAYS' },
-    { id: 'o9mvIBnXtxE', title: 'Especial de Sukot', duration: '9:56', category: 'HOLIDAYS' },
-    { id: '7kJmFPyS5xk', title: '¡Jag Sukot Sameaj!', duration: '0:16', category: 'HOLIDAYS' },
-    { id: 'irjPXPav8dY', title: 'Trailer de Sukot', duration: '2:00', category: 'HOLIDAYS' },
-    { id: 'jmtF9wiiqso', title: 'Sukkot Chistosadas con Yosef', duration: '0:26', category: 'HOLIDAYS' },
-    { id: 'EW5JWXBlC78', title: 'Pesaj: La Salida de Egipto', duration: '9:50', category: 'HOLIDAYS' },
-    { id: 'abrhe9Rg-EI', title: '¿Qué significa la palabra Pesaj?', duration: '5:53', category: 'HOLIDAYS' },
-    { id: 'NeQJdLIVj0A', title: 'Matzah ¿Qué es la Matzah?', duration: '6:15', category: 'HOLIDAYS' },
-    { id: 'K8MVkjuptEo', title: 'El Mar Rojo ¿Por qué se abrió?', duration: '7:20', category: 'HOLIDAYS' },
-    { id: 'CblSXOlt6Vw', title: 'Rosh Hashaná - El comienzo del año', duration: '4:10', category: 'HOLIDAYS' },
-    { id: 'SsW9fe9eWvs', title: 'Abib o Aviv - Mes de Nisán', duration: '4:47', category: 'HOLIDAYS' },
-    { id: 'X2ACDIpXbI8', title: 'Rosh Jodesh Abib', duration: '4:55', category: 'HOLIDAYS' },
-    { id: 'IhFRnooopPo', title: 'Parsha HaJodesh', duration: '1:00', category: 'HOLIDAYS' },
-    { id: '1XCQgq6Eouo', title: 'Parshá Especial HaJodesh', duration: '1:19', category: 'HOLIDAYS' },
-    { id: 'ZwxOaHvYZ1Y', title: 'Parsha Pará (Vaca Roja)', duration: '1:28', category: 'HOLIDAYS' },
-    { id: 'J_h86yuU4Vo', title: 'Parsha Pará - Explicación', duration: '0:57', category: 'HOLIDAYS' },
+    { id: 'rP9CG-5NV1o', title: 'El Milagroso Aceite de Janucá', duration: '10:00', category: 'HOLIDAYS', description: '¡Un especial increíble! Descubre la historia del milagro del aceite que duró 8 días en el Templo Sagrado.' },
+    { id: 'Defyt5gOBQo', title: 'Hagadá, Puppets y Matzá | Historia de Pesaj', duration: '20:34', category: 'HOLIDAYS', description: '¡Bienvenidos a Hagadá, Puppets y Matzá! 🎭🍷 La Gran Noche de la Libertad. Pesaj la Fiesta de la libertad.' },
+    { id: 'NeQJdLIVj0A', title: 'Matzah ¿Qué es la Matzah?', duration: '6:15', category: 'HOLIDAYS', description: 'Descubre junto a Yosef qué es este pan plano y por qué lo comemos en Pésaj.' },
+    { id: '1XCQgq6Eouo', title: 'Parashá especial Parshá HaJodesh', duration: '1:19', category: 'HOLIDAYS', description: '¿Por qué Nisan es el primer mes del calendario judío? Descubre el significado de Shabat HaJodesh y Pésaj.' },
+    { id: 'ZwxOaHvYZ1Y', title: 'Parsha Pará (Vaca Roja)', duration: '1:28', category: 'HOLIDAYS', description: 'Descubre el significado de Shabat Pará. Parashá en un minuto.' },
+    { id: 'vS3C7F1Okm4', title: 'Benny Has a Little Dreidel (Canción)', duration: '2:05', category: 'HOLIDAYS', description: 'Get ready for a song full of joy, light, and fun! Benny takes us into the world of the dreidel.' },
+    { id: '5wE1ZTeTOIU', title: '¡La Chispa de Janucá!', duration: '11:10', category: 'HOLIDAYS', description: 'Únete a Keter, Avraham, Yosef, Ezra y Aharon mientras celebran la maravillosa festividad de Janucá.' },
+    { id: '7kJmFPyS5xk', title: 'חג סוכות שמח | Jag Sukot Sameaj', duration: '0:16', category: 'HOLIDAYS', description: 'Un saludo especial para la fiesta de Sukot.' },
+    { id: 'jmtF9wiiqso', title: 'Sukkot Chistosadas - Yosef y los dátiles', duration: '0:26', category: 'HOLIDAYS', description: 'Momentos divertidos con Yosef en la Sucá.' },
 
     // --- SHABAT ---
-    { id: 'ndf9CmDBHWY', title: 'Yosef y el Shabat', duration: '6:09', category: 'SHABAT' },
-    { id: 'SlWuko2q-Y0', title: 'Shabat Shekalim - Títeres', duration: '0:59', category: 'SHABAT' },
-    { id: 'hccDm7RF-Ls', title: 'Shabat Shekalim - Especial', duration: '2:10', category: 'SHABAT' },
-    { id: 'LWITMNQEWTo', title: 'Shabat Zajor - ¡Recuerda!', duration: '1:00', category: 'SHABAT' },
-    { id: 'Yja7jteJ3d4', title: 'Shabat Zajor - Explicación', duration: '1:10', category: 'SHABAT' },
+    { id: 'ndf9CmDBHWY', title: 'Yosef y el Shabat', duration: '6:09', category: 'SHABAT', description: 'Acompaña a Yosef a descubrir la magia y la alegría del día sagrado de descanso.' },
 
-    // --- STORIES (Cuentos e Historias) ---
-    { id: 'uQdfLlJ98IQ', title: 'Cuentos: Tesoros de Pureza', duration: '3:05', category: 'STORIES' },
-    { id: 'pIgwPuIPzPQ', title: 'Cuentos: David, el Buen Pastor', duration: '3:55', category: 'STORIES' },
-    { id: 'ntU9gSXIU9w', title: 'Cuento: Todo es para bien', duration: '4:40', category: 'STORIES' },
-    { id: 'EmSOWR29G9w', title: 'La Historia de Abraham: Fe y Familia', duration: '0:22', category: 'STORIES' },
-    { id: 'YHOHnafmPOg', title: 'La prueba de Fe: Akedat Itzjak', duration: '1:20', category: 'STORIES' },
-    { id: 'IlGe5gPb-ss', title: 'La promesa a Abraham: Viaje a Canaán', duration: '0:21', category: 'STORIES' },
-    { id: 'u5Xln4-oUMw', title: 'El anuncio del nacimiento de Isaac', duration: '0:38', category: 'STORIES' },
-    { id: 'BXHfjgtmiic', title: 'El pacto entre las partes', duration: '0:34', category: 'STORIES' },
-    { id: 's4k_OBr2-aY', title: 'La travesía de Eliezer', duration: '1:29', category: 'STORIES' },
-    { id: 'JgeYD242mdA', title: 'La historia de Sarah en Hebrón', duration: '0:28', category: 'STORIES' },
-    { id: '2tNGQiZqfdQ', title: 'La sorprendente Historia de Noah', duration: '0:29', category: 'STORIES' },
+    // --- BERESHIT (ESTUDIOS LARGOS) ---
+    { id: '8rAPAkIKRHE', title: 'Estudiemos Parashat 1 Bereshit', duration: '9:34', category: 'BERESHIT', description: 'Acompáñanos en este emocionante viaje a través del principio de todo.' },
+    { id: 'bUu2W_fGqo8', title: 'Resumen Parashat 1 Bereshit con el Doc', duration: '5:59', category: 'BERESHIT', description: 'El Doctor Avraham nos resume los puntos clave del comienzo del mundo.' },
+    { id: 'sMd0opDs2Ss', title: 'Estudiemos Parashat 2 Nóaj', duration: '12:49', category: 'BERESHIT', description: '¡La historia continúa con la Parashat Noaj! Descubre la asombrosa historia de Noé y el arca.' },
+    { id: '6YoVDp5Jeqs', title: 'Resumen Parashat 2 Nóaj con el Doc', duration: '6:57', category: 'BERESHIT', description: 'Resumen detallado de la historia del Diluvio y el Arca con el Doc.' },
+    { id: 've0VT8f00fY', title: 'Estudiemos Parashat 3 Lej Lejá', duration: '13:17', category: 'BERESHIT', description: '¡Prepárate para la emocionante travesía de la Parashat Lej Lejá! Únete a nosotros mientras exploramos el viaje de Abraham.' },
+    { id: '--Z6J-rIgrk', title: 'Estudiemos Parashat 4 Vaierá', duration: '7:05', category: 'BERESHIT', description: '¡La Parashat Vayerá nos espera! Explora la historia de Abraham y los ángeles.' },
+    { id: 'zkBk1z0u5-Q', title: 'Estudiemos Parashat 5 Jaié Saráh', duration: '5:59', category: 'BERESHIT', description: 'Descubre la historia de Rivkáh y la búsqueda de una esposa para Itzjak.' },
+    { id: '5GJFMWdIGbo', title: 'Estudiemos Parashat 6 Toldot', duration: '5:23', category: 'BERESHIT', description: 'Exploraremos las generaciones que siguieron a Isaac y Rebeca.' },
+    { id: 'biWskHeVKpU', title: 'Estudiemos Parashat 7 Vaietzé', duration: '7:14', category: 'BERESHIT', description: 'Únete al Doc y al Poli en esta aventura llena de sueños, engaños, y la promesa divina.' },
+    { id: 'GOfB9q9vb_8', title: 'Estudiemos Parashat 8 Vaishlaj', duration: '5:26', category: 'BERESHIT', description: 'Desentrañamos los misterios de la reconciliación entre Iaacov y su hermano Eisav.' },
+    { id: 'LeF_n_OXbNo', title: 'Estudiemos Parashat 9 Vaieshev', duration: '4:48', category: 'BERESHIT', description: 'Acompaña al Doc y a Yosef mientras estudiamos la historia de Yosef y sus hermanos.' },
+    { id: 'C3NQV3plamY', title: 'Estudiemos Parashat 10 Miketz', duration: '6:00', category: 'BERESHIT', description: '¿Qué sucede cuando Yosef acusa a sus hermanos de espionaje?' },
+    { id: 'VfLg8ivtdFU', title: 'Estudiemos Parashat 11 Vaigash', duration: '3:58', category: 'BERESHIT', description: 'Descubrimos cómo la reunión entre Iosef y sus hermanos alcanza su clímax.' },
+    { id: 'WsR2TAyVZoY', title: 'Estudiemos Parashat 12 Vaieji', duration: '5:02', category: 'BERESHIT', description: 'La bendición de Iaacov a sus nietos y el final del libro de Bereshit.' },
+
+    // --- SHORTS BERESHIT (Incluye los antiguos mal clasificados) ---
+    { id: 'XCP6sLsrT6Q', title: 'Parashá 1 Bereshit - En un minuto', duration: '0:59', category: 'SHORTS_BERESHIT' },
+    { id: '2tNGQiZqfdQ', title: 'La sorprendente Historia de Noah', duration: '0:29', category: 'SHORTS_BERESHIT' },
+    { id: 'oLAULPrPEj8', title: 'Parashá 2 Noaj - En un minuto', duration: '0:59', category: 'SHORTS_BERESHIT' },
+    { id: 'hh4ppg7E5yI', title: 'Parashat 3 Lej Lejá - En un minuto', duration: '1:00', category: 'SHORTS_BERESHIT' },
+    { id: 'EmSOWR29G9w', title: 'La Historia de Abraham: Lecciones de Fe', duration: '0:22', category: 'SHORTS_BERESHIT' },
+    { id: 'u5Xln4-oUMw', title: 'El Increíble Anuncio a Abraham', duration: '0:38', category: 'SHORTS_BERESHIT' },
+    { id: 'IlGe5gPb-ss', title: 'La promesa de Di-s a Abraham', duration: '0:21', category: 'SHORTS_BERESHIT' },
+    { id: 'BXHfjgtmiic', title: 'El pacto entre las partes', duration: '0:34', category: 'SHORTS_BERESHIT' },
+    { id: 'oGBrpfV6Wug', title: 'Parashá 4 Vaierá - En un minuto', duration: '1:00', category: 'SHORTS_BERESHIT' },
+    { id: 'JgeYD242mdA', title: 'La Triste historia de la muerte de Sarah', duration: '0:28', category: 'SHORTS_BERESHIT' },
+    { id: 's4k_OBr2-aY', title: 'La travesía de Eliezer', duration: '1:29', category: 'SHORTS_BERESHIT' },
+    { id: 'YHOHnafmPOg', title: 'La prueba de Fe: Akedat Izjak', duration: '1:20', category: 'SHORTS_BERESHIT' },
+    { id: 'msarrAETqGI', title: 'Parashá 5 Jaié Sará - En un minuto', duration: '0:59', category: 'SHORTS_BERESHIT' },
+    { id: '-wxWR4UiXXI', title: 'Parashá 6 Toldot - En un minuto', duration: '0:59', category: 'SHORTS_BERESHIT' },
+    { id: 'Olinh9ZgvYk', title: 'Parashá 7 Vaietzé - En un minuto', duration: '0:56', category: 'SHORTS_BERESHIT' },
+    { id: 'pow5BUl1A5M', title: 'Parashá 8 Vaishlaj - En un minuto', duration: '0:55', category: 'SHORTS_BERESHIT' },
+    { id: 'mNPB8ICD0i8', title: 'Parashá 9 Vaieshev - En un minuto', duration: '1:00', category: 'SHORTS_BERESHIT' },
+    { id: 'upcJnnNbcO8', title: 'Parashá 10 Miketz - En un minuto', duration: '1:00', category: 'SHORTS_BERESHIT' },
+    { id: 'w4GK3pplW_Y', title: 'Parashá 11 Vaigash - En un minuto', duration: '1:00', category: 'SHORTS_BERESHIT' },
+    { id: 'p4gsg2bZ3jo', title: 'Parashá 12 Vaiejí - En un minuto', duration: '1:00', category: 'SHORTS_BERESHIT' },
+
+    // --- SHEMOT (ESTUDIOS LARGOS) ---
+    { id: 'wWVrrqyVRls', title: 'Parashat 13 Shemot - Estudio Completo', duration: '8:32', category: 'SHEMOT', description: 'Desde la opresión en Egipto hasta el encuentro de Moshé con la zarza ardiente.' },
+    { id: 'r7fX55dNlqc', title: 'Parashat 14 Vaerá - Estudio', duration: '8:36', category: 'SHEMOT', description: 'Aventura a través de los golpes que Hashem envió a Egipto para liberar el pueblo de Israel.' },
+    { id: 'FAgIYC7KhpU', title: 'Parashat 15 Bo - Estudio', duration: '12:38', category: 'SHEMOT', description: 'Las últimas de las plagas, el primer pésaj y la salida de Egipto.' },
+    { id: 'AwKQLzKyW5s', title: 'Parashat 16 Beshalaj - Estudio', duration: '11:27', category: 'SHEMOT', description: 'Únete a nosotros para explorar el milagroso cruce del Mar Rojo.' },
+    { id: 'sHnaggaoroY', title: 'Parashat 17 Itró - Estudio', duration: '11:23', category: 'SHEMOT', description: 'Conoce a Itró y acompaña a Moisés en su travesía hacia el liderazgo.' },
+    { id: '8UBu-rCS5sA', title: 'Parashat 18 Mishpatim - Estudio', duration: '8:38', category: 'SHEMOT', description: 'Exploraremos las fascinantes leyes divinas que nos guían hacia un mundo de justicia.' },
+    { id: 'VdY9Giv2laY', title: 'Parashat 19 Terumáh - Estudio', duration: '5:58', category: 'SHEMOT', description: 'Descubriremos los secretos del Mishkán, el Santuario Divino.' },
+    { id: 'g2akTy5BB0Q', title: 'Parashat 20 Tetzavé - Estudio', duration: '6:21', category: 'SHEMOT', description: 'Descubrimos el significado detrás de las vestiduras sagradas de los Kohaním.' },
+    { id: 'Bd4lU_MYILU', title: 'Parashat 21 Ki Tisá - Estudio', duration: '7:19', category: 'SHEMOT', description: 'Desde la construcción del Santuario hasta el incidente del becerro de oro.' },
+    { id: 'DfeuzcRBfto', title: 'Parashat 22 Vayakel - Estudio', duration: '6:00', category: 'SHEMOT', description: 'Sagradas instrucciones divinas para la construcción del Santuario.' },
+    { id: 'yk8hXQzolOM', title: 'Parashat 23 Pekudéi - Estudio', duration: '4:42', category: 'SHEMOT', description: 'Exploraremos el asombroso relato del completamiento del Mishkán.' },
+
+    // --- SHORTS SHEMOT ---
+    { id: '0ZJUre6RjiY', title: 'Parashat 13 Shemot - Corto', duration: '1:00', category: 'SHORTS_SHEMOT' },
+    { id: 'SDqAXlAfFj4', title: 'Parashat 14 Vaera - Corto', duration: '1:00', category: 'SHORTS_SHEMOT' },
+    { id: 'IFzPSegUYO4', title: 'Parsha en un minuto 15 Bo', duration: '0:44', category: 'SHORTS_SHEMOT' },
+    { id: 'tWHKCkFBjvE', title: 'Parsha en un minuto 16 Beshalaj', duration: '0:47', category: 'SHORTS_SHEMOT' },
+    { id: '1ieTbEKPlRs', title: 'Parsha en un minuto 17 Itró', duration: '0:45', category: 'SHORTS_SHEMOT' },
+    { id: 'SOdBWtfb2hE', title: 'Parsha en un minuto 18 Mishapatim', duration: '0:52', category: 'SHORTS_SHEMOT' },
+    { id: '3qsxRzFfggg', title: 'Parsha en un minuto 19 Terumah', duration: '0:48', category: 'SHORTS_SHEMOT' },
+    { id: 'X6Y4-b4CG4M', title: 'Parsha en un minuto 20 Tetzaveh', duration: '0:48', category: 'SHORTS_SHEMOT' },
+    { id: 'pNfv65TyKDY', title: 'Parsha en un minuto 21 Ki tisa', duration: '0:49', category: 'SHORTS_SHEMOT' },
+    { id: 'hyr1-ef09HM', title: 'Parsha en un minuto 22 Vayakel', duration: '0:43', category: 'SHORTS_SHEMOT' },
+    { id: 'rqyeTYOTRFM', title: 'Parsha en un minuto 23 Pekudei', duration: '0:50', category: 'SHORTS_SHEMOT' },
+
+    // --- VAYIKRA (ESTUDIOS LARGOS) ---
+    { id: 'NwwUrSSDRvQ', title: 'Parashat 24 Vaikrá - Estudio', duration: '5:29', category: 'VAYIKRA', description: 'Nos sumergiremos en el significado y la profundidad de los sacrificios y ofrendas.' },
+    { id: '1mDsNbou-Eg', title: 'Parashat 25 Tzav - Estudio', duration: '6:06', category: 'VAYIKRA', description: 'Profundizaremos en las responsabilidades y derechos de los Kohaním.' },
+    { id: '9Nhcw27C7fU', title: 'Parashat 26 Sheminí - Estudio', duration: '6:52', category: 'VAYIKRA', description: 'Exploramos las leyes de kashrut y aprendemos sobre la santidad.' },
+    { id: '-ORflM1R4H4', title: 'Parashat 27 Tazria - Estudio', duration: '4:52', category: 'VAYIKRA', description: 'Leyes de pureza e impureza y lo que sucede cuando nace un bebé.' },
+    { id: 'cUGfwEKJB_w', title: 'Parashat 27-28 Tazría-Metzorá', duration: '10:15', category: 'VAYIKRA', description: 'Aprenderemos sobre la importancia de nuestras palabras y el Lashón Hará.' },
+    { id: '7LN0uQYABmU', title: 'Parashat 28 Metzora - Estudio', duration: '7:36', category: 'VAYIKRA', description: 'Descubrimos cómo se purificaba a quienes padecían de tzaráat.' },
+
+    // --- SHORTS VAYIKRA ---
+    { id: 'EC-Nnceu_ms', title: 'Parsha en un minuto 24 Vaikra', duration: '0:45', category: 'SHORTS_VAYIKRA' },
+    { id: 'uhGShtqf3l0', title: 'Parsha en un minuto 25 Tzav', duration: '0:53', category: 'SHORTS_VAYIKRA' },
+    { id: 'MwNi34vieEQ', title: 'Parsha en un minuto 26 Sheminí', duration: '0:52', category: 'SHORTS_VAYIKRA' },
+    { id: 'M4RI6h5RxyY', title: 'Parsha en un minuto 26 Sheminí (Corto)', duration: '0:43', category: 'SHORTS_VAYIKRA' },
+
+    // --- CUENTOS DE LA PARASHÁ ---
+    { id: 'Koao7Pp7CwI', title: '💎 Un Experto - Cuento de la Parashá Kedoshim', duration: '5:15', category: 'STORIES_PARASHA', description: 'En este hermoso cuento inspirado en la Parashá Kedoshim, descubrimos que no todo lo valioso brilla a simple vista…' },
+
+    // --- CUENTOS DE LA TRADICIÓN ---
+    { id: 'pIgwPuIPzPQ', title: 'David, el Buen Pastor', duration: '3:55', category: 'STORIES_TRADITION', description: 'Cómo un joven pastor se convirtió en un rey amado por su pueblo al cuidar de sus ovejas.' },
+    { id: 'ntU9gSXIU9w', title: 'Todo es para bien (Gam Zu Letová)', duration: '4:40', category: 'STORIES_TRADITION', description: 'Asombrosa historia de Rabí Akiva y la valiosa lección que nos deja: Todo es para Bien.' },
+    { id: 'uQdfLlJ98IQ', title: 'Tesoros de Pureza', duration: '3:05', category: 'STORIES_TRADITION', description: 'Una historia llena de intrigas, valores y aprendizajes con Rabí Shmuel.' },
 ];
 
-// Video destacado para el Banner Principal (Hero) - VIDEO MÁS GENERAL
-const FEATURED_VIDEO = allVideos.find(v => v.id === 'dd8Bz3RAkgQ') || allVideos[0];
+// Video destacado: Pesaj Special por su calidad y duración
+const FEATURED_VIDEO = allVideos.find(v => v.id === 'Defyt5gOBQo') || allVideos[0];
 
 export const VideoRoom: React.FC<VideoRoomProps> = ({ onBack, initialVideoId }) => {
   const [playingVideo, setPlayingVideo] = useState<YoutubeVideo | null>(null);
   const [showFeaturedInfo, setShowFeaturedInfo] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isDescExpanded, setIsDescExpanded] = useState(false);
+  
+  // ESTADO DEL BUSCADOR (Overlay Mode)
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Auto-play si viene de un link externo
   useEffect(() => {
@@ -156,6 +175,28 @@ export const VideoRoom: React.FC<VideoRoomProps> = ({ onBack, initialVideoId }) 
     }
   }, [initialVideoId]);
 
+  // Focus en input cuando se abre el overlay de búsqueda
+  useEffect(() => {
+    if (isSearchOpen && searchInputRef.current) {
+        setTimeout(() => searchInputRef.current?.focus(), 50);
+    }
+  }, [isSearchOpen]);
+
+  // Evitar scroll del body cuando el buscador está abierto
+  useEffect(() => {
+    if (isSearchOpen) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [isSearchOpen]);
+
+  // Resetear la expansión de descripción cuando cambia el video
+  useEffect(() => {
+    setIsDescExpanded(false);
+  }, [playingVideo]);
+
   const handleShare = () => {
     if (!playingVideo) return;
     const link = `https://youtu.be/${playingVideo.id}`;
@@ -163,6 +204,21 @@ export const VideoRoom: React.FC<VideoRoomProps> = ({ onBack, initialVideoId }) 
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
+  };
+
+  // Lógica de filtrado para el buscador
+  const filteredVideos = searchTerm 
+    ? allVideos.filter(video => 
+        video.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        video.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        categories.find(c => c.id === video.category)?.label.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
+    
+  const handlePlayFromSearch = (video: YoutubeVideo) => {
+      setPlayingVideo(video);
+      setIsSearchOpen(false);
+      setSearchTerm('');
   };
 
   // Si hay un video reproduciéndose, mostramos la VISTA DE REPRODUCCIÓN (NETFLIX STYLE)
@@ -175,6 +231,11 @@ export const VideoRoom: React.FC<VideoRoomProps> = ({ onBack, initialVideoId }) 
     // Existing logic for slidebar (exclude current)
     const relatedVideos = categoryVideos.filter(v => v.id !== playingVideo.id);
     const categoryLabel = categories.find(c => c.id === playingVideo.category)?.label || 'Relacionados';
+
+    // Description Logic
+    const fullDescription = playingVideo.description || `Acompaña a Yosef, Benny y todo el elenco en este emocionante episodio de ${categoryLabel}. Una aventura llena de enseñanzas de la Torá, risas y valores para toda la familia.`;
+    const isLongDescription = fullDescription.length > 250;
+    const displayedDescription = isDescExpanded || !isLongDescription ? fullDescription : `${fullDescription.substring(0, 250)}...`;
 
     return (
       <div className="fixed inset-0 z-[70] w-full h-full bg-[#141414] text-white font-body overflow-y-auto animate-fade-in custom-scrollbar">
@@ -209,7 +270,7 @@ export const VideoRoom: React.FC<VideoRoomProps> = ({ onBack, initialVideoId }) 
          {/* 3. Contenido Principal */}
          <div className="relative z-10 px-6 md:px-16 pt-4 pb-20 max-w-[1920px] mx-auto">
             
-            {/* Reproductor Grande - FIXED FOR ERROR 153 */}
+            {/* Reproductor Grande */}
             <div className="w-full aspect-video max-h-[70vh] bg-black shadow-2xl rounded-2xl overflow-hidden border border-gray-800/50 relative mb-8 ring-1 ring-white/10">
                 <iframe 
                     key={playingVideo.id} 
@@ -258,9 +319,20 @@ export const VideoRoom: React.FC<VideoRoomProps> = ({ onBack, initialVideoId }) 
                     {playingVideo.title}
                   </h1>
                   
-                  <p className="text-gray-300 text-lg md:text-xl font-medium leading-relaxed max-w-4xl">
-                    {playingVideo.description || `Acompaña a Yosef, Benny y todo el elenco en este emocionante episodio de ${categoryLabel}. Una aventura llena de enseñanzas de la Torá, risas y valores para toda la familia.`}
-                  </p>
+                  <div className="max-w-4xl">
+                      <p className="text-gray-300 text-lg md:text-xl font-medium leading-relaxed transition-all duration-300">
+                        {displayedDescription}
+                      </p>
+                      {isLongDescription && (
+                          <button 
+                              onClick={() => setIsDescExpanded(!isDescExpanded)}
+                              className="mt-2 text-torah-gold hover:text-white font-bold text-sm uppercase tracking-wider flex items-center gap-1 transition-colors"
+                          >
+                              {isDescExpanded ? 'Leer menos' : 'Leer más'}
+                              <span className="text-lg">{isDescExpanded ? '▴' : '▾'}</span>
+                          </button>
+                      )}
+                  </div>
                </div>
                
                <div className="flex-none w-full md:w-64 flex flex-col gap-2 text-sm text-gray-400">
@@ -351,16 +423,115 @@ export const VideoRoom: React.FC<VideoRoomProps> = ({ onBack, initialVideoId }) 
        
        {/* Navbar Flotante VideoRoom */}
        <div className="fixed top-0 left-0 w-full p-4 z-50 bg-gradient-to-b from-black/90 via-black/60 to-transparent flex justify-between items-center h-20">
-           <Button onClick={onBack} variant="outline" className="!bg-black/40 !text-white !border-white/30 hover:!bg-white hover:!text-black !px-4 !py-1 !text-sm backdrop-blur-sm">
-             ← Salir
-           </Button>
            
-           {/* LOGO TKP+ CON ESTILO KIDS FLIX */}
-           <div className="font-display font-bold text-3xl tracking-wider drop-shadow-md hidden md:block">
-               <span className="text-torah-gold">TKP</span>
-               <span className="text-white">+</span>
+           {/* 1. IZQUIERDA: Botón Salir */}
+           <div className="flex-none w-24">
+             <Button onClick={onBack} variant="outline" className="!bg-black/40 !text-white !border-white/30 hover:!bg-white hover:!text-black !px-4 !py-1 !text-sm backdrop-blur-sm">
+                 ← Salir
+             </Button>
+           </div>
+           
+           {/* 2. DERECHA: Buscador + Logo */}
+           <div className="flex-1 flex justify-end items-center gap-4">
+               {/* Botón de Búsqueda (Trigger) */}
+               <button 
+                   onClick={() => setIsSearchOpen(true)}
+                   className="w-10 h-10 flex items-center justify-center rounded-full text-white hover:bg-white/10 transition-all hover:scale-110"
+                   title="Buscar videos"
+               >
+                   <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+               </button>
+
+               {/* LOGO TKP+ */}
+               <div className="font-display font-bold text-3xl tracking-wider drop-shadow-md hidden md:block select-none">
+                   <span className="text-torah-gold">TKP</span>
+                   <span className="text-white">+</span>
+               </div>
            </div>
        </div>
+
+       {/* --- SEARCH OVERLAY (PANTALLA COMPLETA) --- */}
+       {isSearchOpen && (
+           <div className="fixed inset-0 z-[100] bg-[#141414]/95 backdrop-blur-xl animate-fade-in flex flex-col items-center pt-24 px-4 overflow-y-auto custom-scrollbar">
+                
+                {/* Botón Cerrar (Top Right) */}
+                <button 
+                    onClick={() => { setIsSearchOpen(false); setSearchTerm(''); }}
+                    className="absolute top-6 right-6 md:top-10 md:right-10 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white hover:text-black transition-all"
+                >
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+
+                {/* Input de Búsqueda Gigante */}
+                <div className="w-full max-w-4xl mb-12">
+                    <input
+                        ref={searchInputRef}
+                        type="text"
+                        placeholder="¿Qué quieres ver hoy?"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full bg-transparent border-b-2 border-gray-700 text-3xl md:text-6xl text-white placeholder-gray-600 focus:outline-none focus:border-torah-gold py-4 font-display font-bold text-center transition-colors"
+                    />
+                </div>
+
+                {/* Resultados de Búsqueda en el Overlay */}
+                {searchTerm ? (
+                   <div className="w-full max-w-7xl animate-fade-in-up pb-20">
+                       <h3 className="text-xl font-bold text-gray-400 mb-6 px-2">
+                           Resultados para "{searchTerm}" <span className="text-torah-gold">({filteredVideos.length})</span>
+                       </h3>
+                       
+                       {filteredVideos.length > 0 ? (
+                           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                               {filteredVideos.map((video) => (
+                                   <div 
+                                       key={video.id}
+                                       onClick={() => handlePlayFromSearch(video)}
+                                       className="relative aspect-video rounded-md overflow-hidden cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-2xl group bg-[#202020] border border-transparent hover:border-gray-500"
+                                   >
+                                       <img 
+                                            src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`} 
+                                            alt={video.title}
+                                            loading="lazy"
+                                            className="w-full h-full object-cover group-hover:opacity-40 transition-opacity"
+                                       />
+                                       <div className="absolute top-2 right-2 opacity-80 group-hover:opacity-0 transition-opacity">
+                                           <div className="bg-black/60 rounded px-1.5 py-0.5 text-[10px] font-bold text-white">{video.duration}</div>
+                                       </div>
+                                       <div className="absolute inset-0 flex flex-col justify-end p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black via-black/80 to-transparent">
+                                           <div className="flex items-center gap-2 mb-2">
+                                               <div className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center text-xs pl-0.5 shadow-lg">▶</div>
+                                           </div>
+                                           <h4 className="font-bold text-sm text-white leading-tight mb-1 line-clamp-2">
+                                               {video.title}
+                                           </h4>
+                                       </div>
+                                   </div>
+                               ))}
+                           </div>
+                       ) : (
+                           <div className="flex flex-col items-center justify-center h-64 text-gray-500">
+                               <div className="text-6xl mb-4">🤷‍♂️</div>
+                               <p className="text-xl font-bold">Benny no encontró videos con ese nombre.</p>
+                           </div>
+                       )}
+                   </div>
+               ) : (
+                   /* Estado vacío del buscador: Sugerencias */
+                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl opacity-50 hover:opacity-100 transition-opacity">
+                        {['Janucá', 'Shabat', 'Parashá', 'Pesaj'].map(tag => (
+                            <button 
+                                key={tag}
+                                onClick={() => setSearchTerm(tag)}
+                                className="p-4 border border-gray-700 rounded-xl hover:bg-white/10 text-gray-300 font-bold transition-colors"
+                            >
+                                {tag}
+                            </button>
+                        ))}
+                   </div>
+               )}
+           </div>
+       )}
 
        {/* MODAL DE INFORMACIÓN (Estilo Pop-up Premium) */}
        {showFeaturedInfo && (
@@ -459,7 +630,7 @@ export const VideoRoom: React.FC<VideoRoomProps> = ({ onBack, initialVideoId }) 
                        Destacado
                    </span>
                    <span className="bg-white/20 backdrop-blur-md text-white px-3 py-1 text-xs font-bold uppercase tracking-widest rounded border border-white/20">
-                       Intro
+                       Pesaj
                    </span>
                </div>
                

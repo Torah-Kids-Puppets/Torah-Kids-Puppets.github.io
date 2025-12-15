@@ -8,14 +8,17 @@ interface HolidayHallProps {
 }
 
 const holidays = [
-    { name: "Rosh Hashaná", icon: "🍎", date: "Tishrei", videoId: "CblSXOlt6Vw" },
-    { name: "Yom Kipur", icon: "⚖️", date: "Tishrei", videoId: "LWITMNQEWTo" }, // Shabat Zajor como fallback educativo
-    { name: "Sucot", icon: "⛺", date: "Tishrei", videoId: "o9mvIBnXtxE" },
-    { name: "Jánuca", icon: "🕎", date: "Kislev", videoId: "5wE1ZTeTOIU" },
-    { name: "Tu Bishvat", icon: "🌳", date: "Shevat", videoId: "SsW9fe9eWvs" },
-    { name: "Purim", icon: "🎭", date: "Adar", videoId: "LWITMNQEWTo" },
+    // Videos disponibles actualizados
     { name: "Pésaj", icon: "🍷", date: "Nisán", videoId: "Defyt5gOBQo" },
-    { name: "Shavuot", icon: "⛰️", date: "Siván", videoId: "dd8Bz3RAkgQ" }, // Intro Torá como fallback
+    { name: "Jánuca", icon: "🕎", date: "Kislev", videoId: "5wE1ZTeTOIU" },
+    { name: "Sucot", icon: "⛺", date: "Tishrei", videoId: "7kJmFPyS5xk" }, // "Jag Sukot Sameaj"
+    
+    // Fiestas sin video específico en esta carga (Usamos el canal general o placeholders educativos sin video por ahora)
+    { name: "Rosh Hashaná", icon: "🍎", date: "Tishrei", videoId: "" }, 
+    { name: "Yom Kipur", icon: "⚖️", date: "Tishrei", videoId: "" },
+    { name: "Tu Bishvat", icon: "🌳", date: "Shevat", videoId: "" },
+    { name: "Purim", icon: "🎭", date: "Adar", videoId: "" },
+    { name: "Shavuot", icon: "⛰️", date: "Siván", videoId: "" },
 ];
 
 export const HolidayHall: React.FC<HolidayHallProps> = ({ onBack, onNavigateToVideos }) => {
@@ -93,14 +96,20 @@ export const HolidayHall: React.FC<HolidayHallProps> = ({ onBack, onNavigateToVi
                                 </p>
                              </div>
 
-                             <Button 
-                                onClick={() => onNavigateToVideos(getSelectedVideoId())} 
-                                variant="primary" 
-                                size="lg"
-                                className="shadow-xl hover:scale-105 transition-transform flex items-center gap-3 px-8"
-                             >
-                                <span>🎥</span> Ver Video
-                             </Button>
+                             {getSelectedVideoId() ? (
+                                 <Button 
+                                    onClick={() => onNavigateToVideos(getSelectedVideoId())} 
+                                    variant="primary" 
+                                    size="lg"
+                                    className="shadow-xl hover:scale-105 transition-transform flex items-center gap-3 px-8"
+                                 >
+                                    <span>🎥</span> Ver Video
+                                 </Button>
+                             ) : (
+                                 <div className="text-sm font-bold text-gray-400 bg-gray-100 px-4 py-2 rounded-full">
+                                     Próximamente Video
+                                 </div>
+                             )}
                          </>
                      )}
                   </div>
