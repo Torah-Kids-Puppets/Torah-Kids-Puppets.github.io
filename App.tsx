@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { View } from './types';
 import { AlefBetBoard } from './components/AlefBetBoard';
@@ -53,7 +54,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
           <p className="text-sm text-gray-500 font-body">Descubre las letras sagradas jugando.</p>
         </div>
 
-        {/* BRACHOT GARDEN (NUEVO) */}
+        {/* BRACHOT GARDEN */}
         <div onClick={() => setView(View.BRACHOT)} className="group cursor-pointer bg-torah-white p-6 rounded-[2rem] shadow-xl border-4 border-green-400 hover:bg-green-50 transition-all transform hover:-translate-y-2 hover:shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-16 h-16 bg-green-400 opacity-10 rounded-bl-[2rem]"></div>
           <div className="text-5xl mb-3 group-hover:scale-110 transition-transform duration-300">🍏</div>
@@ -69,9 +70,9 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
           <p className="text-sm text-gray-500 font-body">Demuestra cuánto sabes en este reto.</p>
         </div>
 
-        {/* PARASHA */}
-        <div onClick={() => setView(View.PARASHA)} className="group cursor-pointer bg-torah-white p-6 rounded-[2rem] shadow-xl border-4 border-torah-green hover:bg-green-50 transition-all transform hover:-translate-y-2 hover:shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-16 h-16 bg-torah-green opacity-10 rounded-bl-[2rem]"></div>
+        {/* PARASHA (Updated Color: Brown/Gold - Amber-700) */}
+        <div onClick={() => setView(View.PARASHA)} className="group cursor-pointer bg-torah-white p-6 rounded-[2rem] shadow-xl border-4 border-amber-700 hover:bg-amber-50 transition-all transform hover:-translate-y-2 hover:shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-16 h-16 bg-amber-700 opacity-10 rounded-bl-[2rem]"></div>
           <div className="text-5xl mb-3 group-hover:scale-110 transition-transform duration-300">📜</div>
           <h3 className="text-xl font-display font-bold text-torah-blue-deep mb-1">Parashá Semanal</h3>
           <p className="text-sm text-gray-500 font-body">Explora los 5 libros con Avraham.</p>
