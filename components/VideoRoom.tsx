@@ -145,7 +145,12 @@ const allVideos: YoutubeVideo[] = [
     { id: 'M4RI6h5RxyY', title: 'Parsha en un minuto 26 Sheminí (Corto)', duration: '0:43', category: 'SHORTS_VAYIKRA' },
 
     // --- CUENTOS DE LA PARASHÁ ---
+    { id: 'cqd6YZU86nM', title: '¿Por qué el Rabino NO quiso rezar?', duration: '5:00', category: 'STORIES_PARASHA', description: 'El enemigo invisible. Una lección de Parashat Bereshit.' },
+    { id: 'MIhXjY5Fo7c', title: '¿Noaj fue egoísta?', duration: '5:00', category: 'STORIES_PARASHA', description: 'El Tzadik del abrigo de piel. Reflexión sobre Parashat Noaj.' },
+    { id: 'NLB8leKLO4k', title: '¿Etrog o Caballo? La decisión más difícil', duration: '5:00', category: 'STORIES_PARASHA', description: 'Un dilema divertido y profundo de la Parashat Vaijí.' },
+    { id: 'h10wQ1V3yt0', title: 'Un cuento que enciende el corazón', duration: '5:00', category: 'STORIES_PARASHA', description: 'Una historia conmovedora sobre la Parashá Ajarei Mot.' },
     { id: 'Koao7Pp7CwI', title: '💎 Un Experto - Cuento de la Parashá Kedoshim', duration: '5:15', category: 'STORIES_PARASHA', description: 'En este hermoso cuento inspirado en la Parashá Kedoshim, descubrimos que no todo lo valioso brilla a simple vista…' },
+    { id: 'nvzRK0GQZgk', title: '¿Qué hacía un Rebe en un Casino?', duration: '5:00', category: 'STORIES_PARASHA', description: 'Una historia sorprendente de Cuentos de la Parashá.' },
 
     // --- CUENTOS DE LA TRADICIÓN ---
     { id: 'pIgwPuIPzPQ', title: 'David, el Buen Pastor', duration: '3:55', category: 'STORIES_TRADITION', description: 'Cómo un joven pastor se convirtió en un rey amado por su pueblo al cuidar de sus ovejas.' },
