@@ -12,6 +12,8 @@ type Category =
   'SHABAT' | 
   'STORIES_PARASHA' | 
   'STORIES_TRADITION' | 
+  'STORIES_JAG' |
+  'SIPUREI_PESAJ' |
   'BERESHIT' | 
   'SHEMOT' | 
   'VAYIKRA' |
@@ -31,6 +33,8 @@ interface YoutubeVideo {
 const categories: { id: Category; label: string; }[] = [
     // 1. Lo más destacado y recurrente
     { id: 'HOLIDAYS', label: '🎉 Fiestas y Especiales' },
+    { id: 'SIPUREI_PESAJ', label: '🍷 Sipurei Pesaj' },
+    { id: 'STORIES_JAG', label: '🌟 Cuentos del Jag' },
     { id: 'SHABAT', label: '🕯️ Shabat' },
     
     // 2. Bloque Bereshit (Estudio + Shorts)
@@ -62,6 +66,14 @@ const allVideos: YoutubeVideo[] = [
     { id: '5wE1ZTeTOIU', title: '¡La Chispa de Janucá!', duration: '11:10', category: 'HOLIDAYS', description: 'Únete a Keter, Avraham, Yosef, Ezra y Aharon mientras celebran la maravillosa festividad de Janucá.' },
     { id: '7kJmFPyS5xk', title: 'חג סוכות שמח | Jag Sukot Sameaj', duration: '0:16', category: 'HOLIDAYS', description: 'Un saludo especial para la fiesta de Sukot.' },
     { id: 'jmtF9wiiqso', title: 'Sukkot Chistosadas - Yosef y los dátiles', duration: '0:26', category: 'HOLIDAYS', description: 'Momentos divertidos con Yosef en la Sucá.' },
+
+    // --- SIPUREI PESAJ ---
+    { id: 'aTa3lcWLwQ0', title: '1. Paréj o Pe-Raj?', duration: '5:00', category: 'SIPUREI_PESAJ', description: 'Descubre los secretos de Pesaj en esta nueva serie emocionante.' },
+    { id: 'EuWL4xrCQy0', title: '2. Coincidencia o Hashgajá?', duration: '5:00', category: 'SIPUREI_PESAJ', description: 'Historias asombrosas sobre la providencia divina en la festividad de Pesaj.' },
+    { id: 'FnzQmTU-2jU', title: '3. Juego o Augurio?', duration: '5:00', category: 'SIPUREI_PESAJ', description: 'Una aventura más llena de enseñanzas en Sipurei Pesaj.' },
+
+    // --- CUENTOS DEL JAG ---
+    { id: '0Fx9rKWegsc', title: '1. La Batalla más difícil', duration: '5:00', category: 'STORIES_JAG', description: 'Una nueva serie de cuentos para las festividades. En este episodio especial de Pesaj, descubre esta gran historia.' },
 
     // --- SHABAT ---
     { id: 'ndf9CmDBHWY', title: 'Yosef y el Shabat', duration: '6:09', category: 'SHABAT', description: 'Acompaña a Yosef a descubrir la magia y la alegría del día sagrado de descanso.' },
